@@ -1,0 +1,33 @@
+@charset "UTF-8";
+
+.ui-state-highlight {
+	background-color: #00ff00;
+}
+
+.ui-chips-container {
+	width: 100%;
+}
+
+ul.ui-chips-container ul.ui-widget-content {
+	border: none;
+}
+
+ul.ui-chips-container.ui-inputfield.ui-state-default.ui-corner-all {
+	border: none;
+}
+
+.tag-label {
+	position: relative;
+	left: -15px;
+	top: -17px;
+}
+
+.center-navbar {
+	white-space: nowrap;
+	overflow: hidden;
+	text-align: left;
+	color: white;
+	padding: 15px;
+	margin-left: 10px;
+	margin-right: 10px;
+}

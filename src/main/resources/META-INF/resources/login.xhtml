@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>#{msg['application.name.mini']}</title>
+<!-- Tell the browser to be responsive to screen width -->
+<meta
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+	name="viewport" />
+<!-- Theme style -->
+<link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css" />
+<link rel="stylesheet" href="/css/adminlte/AdminLTE.min.css" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+<!-- Google Font -->
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
+</head>
+<body class="hold-transition login-page">
+	 
+	<div class="login-box">
+		<div class="login-logo">
+			<a href="pages/index.xhtml"><b>#{msg['application.name']}</b></a>
+		</div>
+		<!-- /.login-logo -->
+		<div class="login-box-body">
+			<p class="login-box-msg">#{msg['application.login.info']}</p>
+			<c:if test="#{param.error != null}">
+				<p class="login-box-msg" style="color: red; padding: 0 5px 5px 5px;">#{msg['message.error.badLogin']}</p>
+			</c:if>
+
+			<form action="${request.contextPath}/appLogin" method="POST">
+				<div class="form-group has-feedback">
+					<input type="email" class="form-control" id="username"
+						name="app_username"
+						placeholder="#{msg['application.login.login']}" /> <span
+						class="fa fa-envelope form-control-feedback"></span>
+				</div>
+				<div class="form-group has-feedback">
+					<input type="password" class="form-control" id="password"
+						name="app_password"
+						placeholder="#{msg['application.login.password']}" /> <span
+						class="fa fa-lock form-control-feedback"></span>
+				</div>
+				<div class="row">
+					<div class="col-xs-8">
+						<p:graphicImage name="/images/pdf.jpg" width="100" />
+					</div>
+					<!-- /.col -->
+					<div class="col-xs-4">
+						<p />
+						<input type="submit" class="btn btn-primary btn-block btn-flat"
+							value="#{msg['application.login.in']}" /> <input type="hidden"
+							name="${_csrf.parameterName}" value="${_csrf.token}" />
+					</div>
+					<!-- /.col -->
+				</div>
+			</form>
+		</div>
+		<!-- /.login-box-body -->
+	</div>
+	<!-- /.login-box -->
+
+</body>
+</html>

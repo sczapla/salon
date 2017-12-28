@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/pages/template/template.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:adm="http://github.com/adminfaces"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<ui:define name="head-end">
+		<style type="text/css">
+.ui-datatable .ui-datatable-header {
+	text-align: right !important;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="title">
+        #{msg['page.systemuser.title']}
+    </ui:define>
+
+	<ui:define name="description">
+        #{msg['page.systemuser.description']}
+    </ui:define>
+
+	<ui:define name="body">
+		<h:form id="systemUser">
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<div id="main-buttons">
+						<p:commandButton id="userAddButton" action="#{systemUserView.add}"
+							update="systemUser:perDial" process="@this"
+							oncomplete="PF('newSystemUserDialog').show()" icon="fa fa-plus"
+							value="#{msg['button.add']}" styleClass="btn-primary"
+							resetValues="true">
+							<f:setPropertyActionListener value="ADD"
+								target="#{systemUserView.dialogMode}" />
+						</p:commandButton>
+					</div>
+					<p:separator />
+					
+					<p:dataTable id="systemUserTable" var="systemUser"
+						value="#{systemUserView.userSource}" paginator="true"
+						rows="25" widgetVar="systemUserTable" paginatorPosition="bottom"
+						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} {Exporters}"
+						rowsPerPageTemplate="25,50,100"
+						resizableColumns="true" emptyMessage="#{msg['table.empty']}">
+
+						<p:column headerText="#{msg['systemuser.table.header.firstname']}"
+							sortBy="#{systemUser.firstName}"
+							filterBy="#{systemUser.firstName}">
+							<h:outputText value="#{systemUser.firstName}" />
+						</p:column>
+						<p:column headerText="#{msg['systemuser.table.header.surname']}"
+							sortBy="#{systemUser.surname}" filterBy="#{systemUser.surname}">
+							<h:outputText value="#{systemUser.surname}" />
+						</p:column>
+						<p:column headerText="#{msg['systemuser.table.header.pesel']}"
+							sortBy="#{systemUser.peselNumber}"
+							filterBy="#{systemUser.peselNumber}">
+							<h:outputText value="#{systemUser.peselNumber}" />
+						</p:column>
+						<p:column headerText="#{msg['systemuser.table.header.email']}"
+							sortBy="#{systemUser.emailAddress}"
+							filterBy="#{systemUser.emailAddress}">
+							<h:outputText value="#{systemUser.emailAddress}" />
+						</p:column>
+						
+						<p:column style="width:17%;text-align: right" exportable="false">
+							<p:commandButton id="edit" process="@this"
+								action="#{systemUserView.edit(systemUser)}" resetValues="true"
+								update="systemUser:perDial"
+								oncomplete="PF('newSystemUserDialog').show()"
+								styleClass="btn-primary" icon="fa fa-search">
+								<f:setPropertyActionListener value="VIEW"
+									target="#{systemUserView.dialogMode}" />
+							</p:commandButton>
+							<p:spacer width="5" />
+							<p:commandButton id="delete" process="@this"
+								action="#{systemUserView.delete(systemUser)}"
+								update="systemUser:systemUserTable" styleClass="btn-danger"
+								icon="fa fa-trash">
+								<p:confirm header="#{msg['confirmation.header']}"
+									message="#{msg['confirmation.delete']}" icon="ui-icon-alert" />
+							</p:commandButton>
+						</p:column>
+					</p:dataTable>
+
+					<p:dialog id="perDial" 
+						header="#{systemUserView.dialogMode ne 'VIEW' ? msg['systemuser.new'] : msg['systemuser.edit']}"
+						showEffect="fade" widgetVar="newSystemUserDialog" modal="true"
+						resizable="false" class="box box-primary">
+						<p:outputPanel id="newSystemUserPanel">
+							<div class="box-body">
+								<p:tabView>
+        							<p:tab title="#{msg['systemuser.table.tab.data']}">
+										<div class="form-group">
+											<p:outputLabel for="userFirstName"
+												value="#{msg['systemuser.table.header.firstname']}:" />
+											<p:inputText id="userFirstName" class="form-control"
+												value="#{systemUserView.newEntity.firstName}"
+												required="true" requiredMessage="#{msg['required.empty']}" />
+											<p:message id="userFirstNameMsg" for="userFirstName" />
+										</div>
+										<div class="form-group">
+											<p:outputLabel for="userSurName"
+												value="#{msg['systemuser.table.header.surname']}:" />
+											<p:inputText id="userSurName" class="form-control"
+												value="#{systemUserView.newEntity.surname}" required="true"
+												requiredMessage="#{msg['required.empty']}" />
+											<p:message id="userSurNameMsg" for="userSurName" />
+										</div>
+										<div class="form-group">
+											<p:outputLabel for="userPeselNumber"
+												value="#{msg['systemuser.table.header.pesel']}:" />
+											<p:inputText id="userPeselNumber" class="form-control"
+												value="#{systemUserView.newEntity.peselNumber}" />
+										</div>
+										<div class="form-group">
+											<p:outputLabel for="userPassword"
+												rendered="#{systemUserView.dialogMode ne 'VIEW'}"
+												value="#{msg['systemuser.table.header.password']}:" />
+											<p:password id="userPassword" class="form-control"
+												rendered="#{systemUserView.dialogMode ne 'VIEW'}"
+												value="#{systemUserView.newEntity.password}" required="true"
+												requiredMessage="#{msg['required.empty']}" />
+											<p:message id="userPasswordMsg" for="userPassword"
+												rendered="#{systemUserView.dialogMode ne 'VIEW'}" />
+										</div>
+										<div class="form-group">
+											<p:outputLabel for="userMail"
+												rendered="#{systemUserView.dialogMode ne 'VIEW'}"
+												value="#{msg['systemuser.table.header.email']}:" />
+											<p:inputText id="userMail" class="form-control"
+												rendered="#{systemUserView.dialogMode ne 'VIEW'}"
+												value="#{systemUserView.newEntity.emailAddress}"
+												required="true" requiredMessage="#{msg['required.empty']}">
+												<f:validator binding="#{emailValidator}" />
+											</p:inputText>
+											<p:message id="userMailMsg" for="userMail" />
+										</div>
+									</p:tab>
+									<p:tab title="#{msg['systemuser.table.tab.role']}">
+										<p:outputLabel value="#{msg['systemuser.table.header.role']}:"
+											for="rolePickList" />
+										<p:pickList id="rolePickList" value="#{systemUserView.roles}"
+											var="role" itemLabel="#{role.name}" itemValue="#{role}"
+											converter="#{genericEntityConverter}">
+											<f:facet name="sourceCaption">#{msg['systemuser.permission.available']}</f:facet>
+											<f:facet name="targetCaption">#{msg['systemuser.permission.choose']}</f:facet>
+
+										</p:pickList>
+									</p:tab>
+								</p:tabView>
+							</div>
+
+
+							<p:separator />
+							<div id="save-buttons">
+								<p:commandButton icon="fa fa-plus" value="#{msg['button.save']}"
+									styleClass="btn-danger btn-primary"
+									process="systemUser:newSystemUserPanel"
+									update="systemUser:systemUserTable,systemUser:newSystemUserPanel"
+									action="#{systemUserView.save}"
+									oncomplete="if (args &amp;&amp; !args.validationFailed) PF('newSystemUserDialog').hide()" />
+								<p:spacer width="10" />
+								<p:commandButton icon="fa fa-eraser"
+									value="#{msg['button.clear']}" styleClass="btn-info"
+									process="@this" update="systemUser:newSystemUserPanel"
+									resetValues="true" actionListener="#{systemUserView.add}" />
+								<p:spacer width="10" />
+								<p:commandButton oncomplete="PF('newSystemUserDialog').hide()"
+									icon="fa fa-close" value="#{msg['button.cancel']}"
+									styleClass="btn-default" />
+							</div>
+
+						</p:outputPanel>
+					</p:dialog>
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+						styleClass="box-warning">
+						<p:commandButton value="#{msg['button.yes']}" type="button"
+							styleClass="btn-primary ui-confirmdialog-yes" icon="fa fa-check" />
+						<p:commandButton value="#{msg['button.no']}" type="button"
+							styleClass="btn-danger ui-confirmdialog-no" icon="fa fa-close" />
+					</p:confirmDialog>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+
+
+</ui:composition>

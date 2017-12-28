@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/pages/template/template.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:adm="http://github.com/adminfaces"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<ui:define name="head-end">
+		<style type="text/css">
+.ui-datatable .ui-datatable-header {
+	text-align: right !important;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="title">
+        #{msg['page.permission.title']}
+    </ui:define>
+
+	<ui:define name="description">
+        #{msg['page.permission.description']}
+    </ui:define>
+
+	<ui:define name="body">
+		<h:form id="permission">
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<div id="main-buttons" >
+						<p:commandButton id="perAddButton" action="#{permissionView.add}"
+							update="permission:perDial" process="@this"
+							oncomplete="PF('newPermissionDialog').show()" icon="fa fa-plus"
+							value="#{msg['button.add']}" styleClass="btn-primary"
+							resetValues="true">
+							<f:setPropertyActionListener value="ADD"
+								target="#{permissionView.dialogMode}" />	
+						</p:commandButton>
+					</div>
+					<p:separator />
+					<p:treeTable id="permissionTree" value="#{permissionView.root}"
+						var="permission" editable="true" emptyMessage="#{msg['table.empty']}">
+						<p:ajax event="rowEdit"
+							listener="#{permissionView.permissionEdit}"
+							update="permissionTree" />
+						<p:ajax event="rowEditCancel"
+							listener="#{permissionView.permissionEditCancel}"
+							update="permissionTree" />
+
+						<p:column headerText="#{msg['permission.table.header.name']}">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{permission.name}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{permission.name}" style="width:100%" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+						<p:column headerText="#{msg['permission.table.header.component']}">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{permission.component}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{permission.component}" style="width:100%" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+						<p:column exportable="false" style="width:10%">
+							<p:commandButton id="edit" process="@this"
+								action="#{permissionView.edit(permission)}" resetValues="true"
+								update="permission:perDial"
+								oncomplete="PF('newPermissionDialog').show()"
+								styleClass="btn-primary" icon="fa fa-search">
+								<f:setPropertyActionListener value="VIEW"
+											target="#{permissionView.dialogMode}" />
+							</p:commandButton>
+							<p:spacer width="5" />
+							<p:commandButton id="delete" process="@this"
+								action="#{permissionView.delete(permission)}"
+								update="permission:permissionTree" styleClass="btn-danger"
+								icon="fa fa-trash">
+								<p:confirm header="#{msg['confirmation.header']}"
+									message="#{msg['confirmation.delete']}" icon="ui-icon-alert" />
+							</p:commandButton>
+						</p:column>
+					</p:treeTable>
+
+
+					<p:dialog id="perDial"
+						header="#{permissionView.dialogMode ne 'VIEW' ? msg['permission.new'] : msg['permission.edit']}"
+						showEffect="fade" widgetVar="newPermissionDialog" modal="true"
+						resizable="false" class="box box-primary">
+						<p:outputPanel id="newPermissionPanel">
+							<div class="box-body">
+								<div class="form-group">
+									<p:outputLabel for="perName"
+										value="#{msg['permission.table.header.name']}:" />
+									<p:inputText id="perName" class="form-control"
+										value="#{permissionView.newEntity.name}" required="true"
+										requiredMessage="#{msg['required.empty']}" />
+									<p:message id="perNameMsg" for="perName" />
+								</div>
+								<div class="form-group">
+									<p:outputLabel
+										value="#{msg['permission.table.header.component']}:"
+										for="perComp" />
+									<p:inputText id="perComp" class="form-control"
+										value="#{permissionView.newEntity.component}" required="true"
+										requiredMessage="#{msg['required.empty']}" />
+									<p:message id="perCompMsg" for="perComp" />
+								</div>
+								<div class="form-group">
+									<p:outputLabel
+										value="#{msg['permission.table.header.component']}:"
+										for="perParent" />
+									<p:selectOneMenu id="perParent"
+										value="#{permissionView.idPermission}">
+										<f:selectItem itemLabel="#{msg['select.select']}"
+											itemValue="#{null}" />
+										<f:selectItems value="#{permissionView.permissionRootList}"
+											var="per" itemLabel="#{per.name}" itemValue="#{per.id}" />
+									</p:selectOneMenu>
+								</div>
+							</div>
+							<p:separator />
+							<div id="save-buttons">
+								<p:commandButton icon="fa fa-plus" value="#{msg['button.save']}"
+									styleClass="btn-danger btn-primary"
+									process="permission:newPermissionPanel"
+									update="permission:permissionTree,permission:newPermissionPanel"
+									action="#{permissionView.save}"
+									oncomplete="if (args &amp;&amp; !args.validationFailed) PF('newPermissionDialog').hide()" />
+								<p:spacer width="10" />
+								<p:commandButton icon="fa fa-eraser"
+									value="#{msg['button.clear']}" styleClass="btn-info"
+									process="@this" update="permission:newPermissionPanel"
+									resetValues="true" actionListener="#{permissionView.add}" />
+								<p:spacer width="10" />
+								<p:commandButton oncomplete="PF('newPermissionDialog').hide()"
+									icon="fa fa-close" value="#{msg['button.cancel']}"
+									styleClass="btn-default" />
+							</div>
+
+						</p:outputPanel>
+					</p:dialog>
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+						styleClass="box-warning">
+						<p:commandButton value="#{msg['button.yes']}" type="button"
+							styleClass="btn-primary ui-confirmdialog-yes" icon="fa fa-check" />
+						<p:commandButton value="#{msg['button.no']}" type="button"
+							styleClass="btn-danger ui-confirmdialog-no" icon="fa fa-close" />
+					</p:confirmDialog>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+
+
+</ui:composition>

@@ -1,0 +1,235 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+	<changeSet author="sczapla (generated)" id="1503573039373-15">
+		<createSequence sequenceName="permission_seq"
+			startValue="100" />
+	</changeSet>
+	<changeSet author="sczapla (generated)" id="1503573039373-16">
+		<createSequence sequenceName="role_seq" startValue="100" />
+	</changeSet>
+	<changeSet author="sczapla (generated)" id="1503573039373-18">
+		<createSequence sequenceName="system_user_seq"
+			startValue="100" />
+	</changeSet>
+
+	<changeSet author="sczapla (generated)" id="1503573039373-37">
+		<createTable tableName="permission">
+			<column name="permission_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+			<column name="version" type="BIGINT" />
+			<column name="component" type="VARCHAR(64)" />
+			<column name="name" type="VARCHAR(64)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="sczapla (generated)" id="1503573039373-38">
+		<createTable tableName="role">
+			<column name="role_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+			<column name="version" type="BIGINT" />
+			<column name="name" type="VARCHAR(64)" />
+		</createTable>
+	</changeSet>
+	<changeSet author="sczapla (generated)" id="1503573039373-39">
+		<createTable tableName="role_permission">
+			<column name="role_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+			<column name="permission_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="sczapla (generated)" id="1503573039373-41">
+		<createTable tableName="system_user">
+			<column name="system_user_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+			<column name="version" type="BIGINT" />
+			<column name="birth_date" type="date" />
+			<column name="description" type="VARCHAR(256)" />
+			<column name="document_number" type="VARCHAR(20)" />
+			<column name="email_address" type="VARCHAR(64)">
+				<constraints nullable="false" />
+			</column>
+			<column name="first_name" type="VARCHAR(64)" />
+			<column name="is_active" type="BOOLEAN">
+				<constraints nullable="false" />
+			</column>
+			<column name="password" type="VARCHAR(64)">
+				<constraints nullable="false" />
+			</column>
+			<column name="password_attempt_count" type="INT" />
+			<column name="pesel" type="VARCHAR(11)" />
+			<column name="phone_number" type="VARCHAR(64)" />
+			<column name="registered" type="BOOLEAN" />
+			<column name="registration_date" type="TIMESTAMP WITHOUT TIME ZONE" />
+			<column name="second_name" type="VARCHAR(64)" />
+			<column name="surname" type="VARCHAR(64)" />
+		</createTable>
+	</changeSet>
+	<changeSet author="sczapla (generated)" id="1503573039373-44">
+		<createTable tableName="system_user_role">
+			<column name="system_user_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+			<column name="role_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+
+	<changeSet author="sczapla (generated)" id="1503573039373-49">
+		<addPrimaryKey columnNames="role_id, permission_id"
+			tableName="role_permission" />
+	</changeSet>
+	<changeSet author="sczapla (generated)" id="1503573039373-52">
+		<addPrimaryKey columnNames="system_user_id, role_id"
+			tableName="system_user_role" />
+	</changeSet>
+	<changeSet author="sczapla (generated)" id="1503573039373-67">
+		<addPrimaryKey columnNames="permission_id"
+			constraintName="permissionPK" tableName="permission" />
+	</changeSet>
+	<changeSet author="sczapla (generated)" id="1503573039373-68">
+		<addPrimaryKey columnNames="role_id" constraintName="rolePK"
+			tableName="role" />
+	</changeSet>
+	<changeSet author="sczapla (generated)" id="1503573039373-70">
+		<addPrimaryKey columnNames="system_user_id"
+			constraintName="system_userPK" tableName="system_user" />
+	</changeSet>
+	<changeSet author="sczapla (generated)" id="1503573039373-73">
+		<addUniqueConstraint columnNames="document_number"
+			constraintName="UC_SYSTEM_USERDOCUMENT_NUMBER_COL" tableName="system_user" />
+	</changeSet>
+	<changeSet author="sczapla (generated)" id="1503573039373-74">
+		<addUniqueConstraint columnNames="email_address"
+			constraintName="UC_SYSTEM_USEREMAIL_ADDRESS_COL" tableName="system_user" />
+	</changeSet>
+	<changeSet author="sczapla (generated)" id="1503573039373-75">
+		<addUniqueConstraint columnNames="pesel"
+			constraintName="UC_SYSTEM_USERPESEL_COL" tableName="system_user" />
+	</changeSet>
+	<changeSet author="sczapla (generated)" id="1503573039373-81">
+		<addForeignKeyConstraint baseColumnNames="system_user_id"
+			baseTableName="system_user_role" constraintName="FK5soqc4583re86busn1idb194d"
+			deferrable="false" initiallyDeferred="false" referencedColumnNames="system_user_id"
+			referencedTableName="system_user" />
+	</changeSet>
+	<changeSet author="sczapla (generated)" id="1503573039373-85">
+		<addForeignKeyConstraint baseColumnNames="role_id"
+			baseTableName="role_permission" constraintName="FKa6jx8n8xkesmjmv6jqug6bg68"
+			deferrable="false" initiallyDeferred="false" referencedColumnNames="role_id"
+			referencedTableName="role" />
+	</changeSet>
+	<changeSet author="sczapla (generated)" id="1503573039373-92">
+		<addForeignKeyConstraint baseColumnNames="permission_id"
+			baseTableName="role_permission" constraintName="FKf8yllw1ecvwqy3ehyxawqa1qp"
+			deferrable="false" initiallyDeferred="false" referencedColumnNames="permission_id"
+			referencedTableName="permission" />
+	</changeSet>
+	<changeSet author="sczapla (generated)" id="1503573039373-95">
+		<addForeignKeyConstraint baseColumnNames="role_id"
+			baseTableName="system_user_role" constraintName="FKl71b9ib2ylhgyby4x7r5bof17"
+			deferrable="false" initiallyDeferred="false" referencedColumnNames="role_id"
+			referencedTableName="role" />
+	</changeSet>
+
+	<changeSet id="1496828081377-22" author="sczapla">
+		<insert schemaName="public" tableName="role">
+			<column name="role_id" value="1" />
+			<column name="name" value="ROLE_ADMIN" />
+			<column name="version" value="0" />
+		</insert>
+		<insert schemaName="public" tableName="role">
+			<column name="role_id" value="2" />
+			<column name="name" value="ROLE_USER" />
+			<column name="version" value="0" />
+		</insert>
+		<insert schemaName="public" tableName="permission">
+			<column name="permission_id" value="1" />
+			<column name="name" value="PERM_LOGIN" />
+			<column name="component" value="COMP_LOGIN" />
+			<column name="version" value="0" />
+		</insert>
+		<insert schemaName="public" tableName="permission">
+			<column name="permission_id" value="2" />
+			<column name="name" value="PERM_VIEW" />
+			<column name="component" value="COMP_VIEW" />
+			<column name="version" value="0" />
+		</insert>
+		<insert schemaName="public" tableName="permission">
+			<column name="permission_id" value="3" />
+			<column name="name" value="PERM_EDIT" />
+			<column name="component" value="COMP_EDIT" />
+			<column name="version" value="0" />
+		</insert>
+		<insert schemaName="public" tableName="system_user">
+			<column name="system_user_id" value="1" />
+			<column name="email_address" value="admin@admin.pl" />
+			<column name="phone_number" value="111222333" />
+			<column name="birth_date" valueDate="1980-01-01T00:00:00" />
+			<column name="registration_date" valueDate="2000-01-01T00:00:00" />
+			<column name="password"
+				value="$2a$06$AFhxpPj1aQ.ALAt6jrJkVOeIi5XvleQgYSls/amg3tx3c3FFrLiea" />
+			<column name="first_name" value="adminName" />
+			<column name="second_name" value="adminName" />
+			<column name="surname" value="adminSurname" />
+			<column name="is_active" valueBoolean="true" />
+			<column name="description" value="admin test" />
+			<column name="version" value="0" />
+		</insert>
+		<insert schemaName="public" tableName="system_user">
+			<column name="system_user_id" value="2" />
+			<column name="email_address" value="user@user.pl" />
+			<column name="phone_number" value="222333444" />
+			<column name="birth_date" valueDate="1980-02-02T00:00:00" />
+			<column name="registration_date" valueDate="2000-02-02T00:00:00" />
+			<column name="password"
+				value="$2a$06$svnq7ZE03SiACHYuQ.1GpeVbWtCavl95FqdOXPMpZB5SDfy4.W7vi" />
+			<column name="first_name" value="userName" />
+			<column name="second_name" value="userName" />
+			<column name="surname" value="userSurname" />
+			<column name="is_active" valueBoolean="true" />
+			<column name="description" value="user test" />
+			<column name="version" value="0" />
+		</insert>
+	</changeSet>
+	<changeSet id="1496828081377-23" author="sczapla">
+		<insert schemaName="public" tableName="system_user_role">
+			<column name="system_user_id" value="1" />
+			<column name="role_id" value="1" />
+		</insert>
+		<insert schemaName="public" tableName="system_user_role">
+			<column name="system_user_id" value="2" />
+			<column name="role_id" value="2" />
+		</insert>
+		<insert schemaName="public" tableName="role_permission">
+			<column name="role_id" value="1" />
+			<column name="permission_id" value="2" />
+		</insert>
+		<insert schemaName="public" tableName="role_permission">
+			<column name="role_id" value="1" />
+			<column name="permission_id" value="1" />
+		</insert>
+		<insert schemaName="public" tableName="role_permission">
+			<column name="role_id" value="1" />
+			<column name="permission_id" value="3" />
+		</insert>
+		<insert schemaName="public" tableName="role_permission">
+			<column name="role_id" value="2" />
+			<column name="permission_id" value="2" />
+		</insert>
+		<insert schemaName="public" tableName="role_permission">
+			<column name="role_id" value="2" />
+			<column name="permission_id" value="1" />
+		</insert>
+	</changeSet>
+		
+</databaseChangeLog>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:view contentType="text/html">
+	<h:head>
+		<title>#{msg['application.name.mini']}</title>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport"
+			content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="mobile-web-app-capable" content="yes" />
+		<link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css" />
+		<link rel="stylesheet" href="/css/adminlte/AdminLTE.min.css" />
+		<link rel="stylesheet"
+			href="/css/adminlte/skins/skin-purple-light.min.css" />
+		<link rel="stylesheet" href="/css/adminlte/office.css" />
+		<link rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+		<link rel="stylesheet"
+			href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
+		<!-- script type="text/javascript">
+    //<![CDATA[
+        PrimeFaces.widget.TreeTable.prototype.bindSelectionEvents = function() {
+            var $this = this,
+            rowSelector = '> tr.ui-treetable-selectable-node';
+
+            this.tbody.off('mouseover.treeTable mouseout.treeTable click.treeTable', rowSelector)
+                        .on('mouseover.treeTable', rowSelector, null, function(e) {
+                            var element = $(this);
+                            if(!element.hasClass('ui-state-highlight')) {
+                                element.addClass('ui-state-hover');
+
+                                if($this.isCheckboxSelection() && !$this.cfg.nativeElements) {
+                                    element.find('> td:first-child > div.ui-chkbox > div.ui-chkbox-box').addClass('ui-state-hover');
+                                }
+                            }
+                        })
+                        .on('mouseout.treeTable', rowSelector, null, function(e) {
+                            var element = $(this);
+                            if(!element.hasClass('ui-state-highlight')) {
+                                element.removeClass('ui-state-hover');
+
+                                if($this.isCheckboxSelection() && !$this.cfg.nativeElements) {
+                                    element.find('> td:first-child > div.ui-chkbox > div.ui-chkbox-box').removeClass('ui-state-hover');
+                                }
+                            }
+                        })
+                        .on('click.treeTable', rowSelector, null, function(e) {
+                            //$this.onRowClick(e, $(this));
+                            e.preventDefault();
+                        });
+
+            if(this.isCheckboxSelection()) {
+               var checkboxSelector =  this.cfg.nativeElements ? '> tr.ui-treetable-selectable-node > td:first-child :checkbox':
+                        '> tr.ui-treetable-selectable-node > td:first-child div.ui-chkbox-box';
+
+                    this.tbody.off('click.treeTable-checkbox', checkboxSelector)
+                          .on('click.treeTable-checkbox', checkboxSelector, null, function(e) {
+                              var node = $(this).closest('tr.ui-treetable-selectable-node');
+                              $this.toggleCheckboxNode(node);
+                              var element = document.getElementById('treeDiv');
+                              $(element).find('tr').css('color','');
+                              $(".ui-state-highlight").css("background-color","");
+                              //$('#treeDiv').find("*").removeClass("ui-state-highlight");
+                          });
+
+
+                    //initial partial selected visuals
+                    if(this.cfg.nativeElements) {
+                        this.indeterminateNodes(this.tbody.children('tr.ui-treetable-partialselected'));
+                    }
+            }
+        };
+    //]]>
+</script-->
+	</h:head>
+	<h:body class="hold-transition skin-green sidebar-mini">
+		<p:ajaxStatus onstart="showBar();" onsuccess="hideBar();" />
+
+		<p:dialog modal="true" widgetVar="statusDialog" draggable="false"
+			closable="false" resizable="false" responsive="true"
+			showHeader="false" style="z-index: 9999!important;position: fixed">
+			<p:graphicImage library="primefaces-admin"
+				name="images/ajaxloadingbar.gif" />
+		</p:dialog>
+
+		<div class="wrapper">
+			<div id="loader" class="load-bar" style="display: none">
+				<div class="bar"></div>
+				<div class="bar"></div>
+				<div class="bar"></div>
+			</div>
+			<header class="main-header">
+				<ui:insert name="header">
+					<ui:include src="/pages/template/header.xhtml" />
+				</ui:insert>
+			</header>
+
+			<aside class="main-sidebar">
+				<ui:insert name="left-panel">
+					<ui:include src="/pages/template/left-panel.xhtml" />
+				</ui:insert>
+			</aside>
+			<!-- content -->
+			<!-- h:form id="content-form"-->
+			<div id="content" class="content-wrapper">
+				<section class="content-header">
+					<h1>
+						<ui:insert name="title" />
+						<small><ui:insert name="description" /></small>
+					</h1>
+					<ui:fragment>
+						<p:breadCrumb class="breadcrumb" model="#{breadCrumbBean.model}" />
+					</ui:fragment>
+					<ui:insert name="content-header" />
+				</section>
+				<section class="content">
+					<ui:insert name="content-begin" />
+					<ui:fragment rendered="true">
+						<div class="row">
+							<div class="col-sm-12">
+								<p:messages id="messages" closable="true" globalOnly="true"
+									autoUpdate="true" showDetail="true" severity="error,fatal"
+									escape="false" />
+								<!-- we need two messages because info-messages are hidden by javascript  -->
+								<p:messages id="info-messages" closable="true" autoUpdate="true"
+									showDetail="true" severity="info,warn" escape="false" />
+								<p:tooltip />
+								<!-- exception messages with type tooltip -->
+							</div>
+						</div>
+					</ui:fragment>
+
+					<ui:insert name="body" />
+				</section>
+			</div>
+			<!-- /h:form-->
+
+			<footer class="main-footer">
+				<ui:insert name="footer">
+					<ui:include src="/pages/template/footer.xhtml" />
+				</ui:insert>
+			</footer>
+			<div class="control-sidebar-bg"></div>
+		</div>
+		<h:outputScript library="js" name="bootstrap.min.js" target="head" />
+		<h:outputScript library="js" name="admintemplate.js" target="head" />
+		<h:outputScript library="js" name="adminlte.min.js" target="head" />
+
+	</h:body>
+
+</f:view>
+</html>

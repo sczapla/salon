@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+<body>
+	<ui:composition>
+		<section class="sidebar"> <!-- Sidebar user panel (optional) -->
+		<ul class="sidebar-menu" data-widget="tree">
+			<li class="header">KOMPONENTY</li>
+			<li><a href="/pages/index.xhtml"> <i
+					class="fa fa-television"></i> <span>Pulpit</span>
+			</a></li>
+			<li class="treeview"><a href="#"> <i class="fa fa-plug"></i>
+					<span>Administracja</span> <span class="pull-right-container">
+						<i class="fa fa-angle-left pull-right"></i>
+				</span>
+			</a>
+				<ul class="treeview-menu">
+					<li><a href="/pages/system-user.xhtml"><i
+							class="fa fa-circle-o"></i>#{msg['menu.user']}</a></li>
+					<li><a href="/pages/role.xhtml"><i class="fa fa-circle-o"></i>#{msg['menu.role']}</a></li>
+					<li><a href="/pages/permission.xhtml"><i
+							class="fa fa-circle-o"></i>#{msg['menu.permission']}</a></li>
+				</ul></li>
+
+			<li class="treeview"><a href="#"> <i
+					class="fa fa-check-circle-o"></i> <span>Wizyty</span> <span
+					class="pull-right-container"> <i
+						class="fa fa-angle-left pull-right"></i>
+				</span>
+			</a>
+				<ul class="treeview-menu">
+					<li><a href="#"><i class="fa fa-circle-o"></i>Historia wizyt</a></li>
+					<li><a href="#"><i class="fa fa-circle-o"></i>Umów wizytę</a></li>
+				</ul></li>
+			</ul>
+		</section>
+	</ui:composition>
+</body>
+</html>
