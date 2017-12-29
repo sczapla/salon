@@ -51,9 +51,7 @@
 				<constraints nullable="false" />
 			</column>
 			<column name="version" type="BIGINT" />
-			<column name="birth_date" type="date" />
 			<column name="description" type="VARCHAR(256)" />
-			<column name="document_number" type="VARCHAR(20)" />
 			<column name="email_address" type="VARCHAR(64)">
 				<constraints nullable="false" />
 			</column>
@@ -65,11 +63,8 @@
 				<constraints nullable="false" />
 			</column>
 			<column name="password_attempt_count" type="INT" />
-			<column name="pesel" type="VARCHAR(11)" />
 			<column name="phone_number" type="VARCHAR(64)" />
-			<column name="registered" type="BOOLEAN" />
 			<column name="registration_date" type="TIMESTAMP WITHOUT TIME ZONE" />
-			<column name="second_name" type="VARCHAR(64)" />
 			<column name="surname" type="VARCHAR(64)" />
 		</createTable>
 	</changeSet>
@@ -104,17 +99,9 @@
 		<addPrimaryKey columnNames="system_user_id"
 			constraintName="system_userPK" tableName="system_user" />
 	</changeSet>
-	<changeSet author="sczapla (generated)" id="1503573039373-73">
-		<addUniqueConstraint columnNames="document_number"
-			constraintName="UC_SYSTEM_USERDOCUMENT_NUMBER_COL" tableName="system_user" />
-	</changeSet>
 	<changeSet author="sczapla (generated)" id="1503573039373-74">
 		<addUniqueConstraint columnNames="email_address"
 			constraintName="UC_SYSTEM_USEREMAIL_ADDRESS_COL" tableName="system_user" />
-	</changeSet>
-	<changeSet author="sczapla (generated)" id="1503573039373-75">
-		<addUniqueConstraint columnNames="pesel"
-			constraintName="UC_SYSTEM_USERPESEL_COL" tableName="system_user" />
 	</changeSet>
 	<changeSet author="sczapla (generated)" id="1503573039373-81">
 		<addForeignKeyConstraint baseColumnNames="system_user_id"
@@ -174,12 +161,10 @@
 			<column name="system_user_id" value="1" />
 			<column name="email_address" value="admin@admin.pl" />
 			<column name="phone_number" value="111222333" />
-			<column name="birth_date" valueDate="1980-01-01T00:00:00" />
 			<column name="registration_date" valueDate="2000-01-01T00:00:00" />
 			<column name="password"
 				value="$2a$06$AFhxpPj1aQ.ALAt6jrJkVOeIi5XvleQgYSls/amg3tx3c3FFrLiea" />
 			<column name="first_name" value="adminName" />
-			<column name="second_name" value="adminName" />
 			<column name="surname" value="adminSurname" />
 			<column name="is_active" valueBoolean="true" />
 			<column name="description" value="admin test" />
@@ -189,12 +174,10 @@
 			<column name="system_user_id" value="2" />
 			<column name="email_address" value="user@user.pl" />
 			<column name="phone_number" value="222333444" />
-			<column name="birth_date" valueDate="1980-02-02T00:00:00" />
 			<column name="registration_date" valueDate="2000-02-02T00:00:00" />
 			<column name="password"
 				value="$2a$06$svnq7ZE03SiACHYuQ.1GpeVbWtCavl95FqdOXPMpZB5SDfy4.W7vi" />
 			<column name="first_name" value="userName" />
-			<column name="second_name" value="userName" />
 			<column name="surname" value="userSurname" />
 			<column name="is_active" valueBoolean="true" />
 			<column name="description" value="user test" />

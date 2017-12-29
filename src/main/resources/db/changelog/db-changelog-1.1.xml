@@ -66,4 +66,36 @@
 			<column name="role_id" value="3" />
 		</insert>
 	</changeSet>
+	<changeSet author="sczapla" id="1503573039373-42">
+		<createTable tableName="visit">
+			<column name="visit_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+			<column name="version" type="BIGINT" />
+			<column name="visit_from" type="DATETIME" >
+				<constraints nullable="false" />
+			</column>
+			<column name="visit_to" type="DATETIME" >
+				<constraints nullable="false" />
+			</column>
+			<column name="status" type="VARCHAR(20)" defaultValue="START"/>
+			<column name="comments" type="VARCHAR(256)"/>
+			<column name="system_user_from_id" type="BIGINT" >
+				<constraints nullable="false" />
+			</column>
+			<column name="system_user_to_id" type="BIGINT" >
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<addPrimaryKey columnNames="visit_id" tableName="visit" />
+		<createSequence sequenceName="visit_seq" startValue="100" />
+		<addForeignKeyConstraint baseColumnNames="system_user_from_id"
+			baseTableName="visit" constraintName="FK5soqc4583re86busn1idb1941"
+			deferrable="false" initiallyDeferred="false" referencedColumnNames="system_user_id"
+			referencedTableName="system_user" />
+		<addForeignKeyConstraint baseColumnNames="system_user_to_id"
+			baseTableName="visit" constraintName="FK5soqc4583re86busn1idb1942"
+			deferrable="false" initiallyDeferred="false" referencedColumnNames="system_user_id"
+			referencedTableName="system_user" />
+	</changeSet>
 </databaseChangeLog>
