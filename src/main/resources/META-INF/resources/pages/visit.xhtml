@@ -55,11 +55,11 @@
 							</div>
 						</p:tab>
 						<p:tab id="personal3" title="Personal3">
-									<p:schedule id="schedule" editable="true" value="#{visitView.eventModel}"
-										view="agendaWeek" allDaySlot="false" axisFormat="H:mm"
-										maxTime="19:00" minTime="9:00" scrollTime="false"
-										widgetVar="myschedule" timeZone="GMT+2" locale="pl" aspectRatio="2.5">
-										
+									<p:schedule id="schedule" editable="false" value="#{visitView.eventModel}"
+										view="agendaWeek" allDaySlot="false" axisFormat="H:mm" draggable="false" resizable="false"
+										maxTime="19:00" minTime="9:00" scrollTime="false" ignoreTimezone="false" showWeekends="false"
+										widgetVar="myschedule" timeZone="GMT+2" locale="pl" aspectRatio="2.5" rightHeaderTemplate="agendaWeek">
+										<p:ajax event="eventSelect" listener="#{visitView.onEventSelect}" />
 									</p:schedule>
 						
 						</p:tab>

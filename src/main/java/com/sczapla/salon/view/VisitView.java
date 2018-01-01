@@ -10,6 +10,7 @@ import javax.faces.application.Application;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.event.FlowEvent;
+import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
 import org.primefaces.model.ScheduleModel;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Component;
 
 import com.sczapla.salon.model.Visit;
 import com.sczapla.salon.service.VisitService;
+import com.sczapla.salon.view.model.ScheduleLazyModel;
 
 @Component("visitView")
 @Scope("view")
@@ -28,7 +30,9 @@ public class VisitView implements Serializable {
 	private final ResourceBundle messagesBundle;
 
 	private Visit newEntity;
-	private ScheduleModel eventModel;
+	
+	@Autowired
+	private ScheduleLazyModel eventModel;
 
 	@Autowired
 	private VisitService visitService;
@@ -42,9 +46,13 @@ public class VisitView implements Serializable {
 	@PostConstruct
 	public void init() {
 		newEntity = new Visit();
-		eventModel = new DefaultScheduleModel();
-		eventModel.addEvent(new DefaultScheduleEvent("Birthday Party", today1Pm(), today6Pm()));
+		//eventModel.addEvent(new DefaultScheduleEvent("Birthday Party", today1Pm(), today6Pm()));
 	}
+	
+	public void onEventSelect(SelectEvent selectEvent) {
+        int a=0;
+        a++;
+    }
 
 	private Date today1Pm() {
 		Calendar t = (Calendar) today().clone();
@@ -81,12 +89,13 @@ public class VisitView implements Serializable {
 		return event.getNewStep();
 	}
 
-	public ScheduleModel getEventModel() {
+	public ScheduleLazyModel getEventModel() {
 		return eventModel;
 	}
 
-	public void setEventModel(ScheduleModel eventModel) {
+	public void setEventModel(ScheduleLazyModel eventModel) {
 		this.eventModel = eventModel;
 	}
+
 
 }
