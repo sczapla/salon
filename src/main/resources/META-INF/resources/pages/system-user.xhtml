@@ -55,11 +55,6 @@
 							sortBy="#{systemUser.surname}" filterBy="#{systemUser.surname}">
 							<h:outputText value="#{systemUser.surname}" />
 						</p:column>
-						<p:column headerText="#{msg['systemuser.table.header.pesel']}"
-							sortBy="#{systemUser.peselNumber}"
-							filterBy="#{systemUser.peselNumber}">
-							<h:outputText value="#{systemUser.peselNumber}" />
-						</p:column>
 						<p:column headerText="#{msg['systemuser.table.header.email']}"
 							sortBy="#{systemUser.emailAddress}"
 							filterBy="#{systemUser.emailAddress}">
@@ -111,12 +106,6 @@
 											<p:message id="userSurNameMsg" for="userSurName" />
 										</div>
 										<div class="form-group">
-											<p:outputLabel for="userPeselNumber"
-												value="#{msg['systemuser.table.header.pesel']}:" />
-											<p:inputText id="userPeselNumber" class="form-control"
-												value="#{systemUserView.newEntity.peselNumber}" />
-										</div>
-										<div class="form-group">
 											<p:outputLabel for="userPassword"
 												rendered="#{systemUserView.dialogMode ne 'VIEW'}"
 												value="#{msg['systemuser.table.header.password']}:" />
@@ -148,7 +137,6 @@
 											converter="#{genericEntityConverter}">
 											<f:facet name="sourceCaption">#{msg['systemuser.permission.available']}</f:facet>
 											<f:facet name="targetCaption">#{msg['systemuser.permission.choose']}</f:facet>
-
 										</p:pickList>
 									</p:tab>
 								</p:tabView>

@@ -30,10 +30,7 @@ public class PermissionView implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private final ResourceBundle messagesBundle;
-	private TreeNode root;
-	private HashMap<Long, Permission> permissionRoot;
-	private Long idPermission;
-	private TreeNode[] selectedNodes;
+	private List<Permission> permissions;
 	private String dialogMode;
 	private Permission newEntity;
 
@@ -42,8 +39,6 @@ public class PermissionView implements Serializable {
 
 	public PermissionView() {
 		newEntity = new Permission();
-		newEntity.setComponent("asdf");
-		newEntity.setName("sd");
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
 		this.messagesBundle = application.getResourceBundle(context, "msg");
@@ -51,33 +46,8 @@ public class PermissionView implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		permissionRoot = new HashMap<Long, Permission>();
-		initPermissionTree();
+		permissions = permissionService.findAllOrderByNameAsc();
 		dialogMode = DialogMode.ADD.name();
-	}
-
-	private void initPermissionTree() {
-		List<Permission> permissionRootAll = (List<Permission>) permissionService.findAllRootPermission();
-		root = new CheckboxTreeNode(new Permission(), null);
-		for (Permission permission : permissionRootAll) {
-			createPermissionTree(root, permission);
-		}
-		permissionRoot.clear();
-		List<Permission> permissionAll = (List<Permission>) permissionService.findAllOrderByNameAsc();
-
-		for (Permission permission : permissionAll) {
-			permissionRoot.put(permission.getId(), permission);
-		}
-	}
-
-	private void createPermissionTree(TreeNode root, Permission permission) {
-		CheckboxTreeNode node = new CheckboxTreeNode(permission, root);
-		node.setExpanded(true);
-		if (permission.getChildren() != null) {
-			for (Permission permissionChild : permission.getChildren()) {
-				createPermissionTree(node, permissionChild);
-			}
-		}
 	}
 
 	public void permissionEdit(RowEditEvent event) {
@@ -97,25 +67,13 @@ public class PermissionView implements Serializable {
 	public void delete(Permission entity) {
 		permissionService.delete(entity);
 		Utils.addDetailMessage(messagesBundle.getString("info.delete"), FacesMessage.SEVERITY_INFO);
-		initPermissionTree();
 	}
 
 	public void edit(Permission entity) {
 		newEntity = entity;
-		idPermission = null;
-		if (entity.getParent() != null) {
-			idPermission = entity.getParent().getId();
-		}
 	}
 
 	public void save() {
-		Permission permissionTempRoot = null;
-		if (idPermission != null) {
-			permissionTempRoot = permissionRoot.get(idPermission);
-			newEntity.setParent(permissionTempRoot);
-		} else {
-			newEntity.setParent(null);
-		}
 		try {
 			permissionService.save(newEntity);
 			Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
@@ -123,35 +81,6 @@ public class PermissionView implements Serializable {
 			Utils.addDetailMessage(messagesBundle.getString("message.error.undefinedSaveException"),
 					FacesMessage.SEVERITY_ERROR);
 		}
-		initPermissionTree();
-	}
-
-	public TreeNode getRoot() {
-		return root;
-	}
-
-	public void setRoot(TreeNode root) {
-		this.root = root;
-	}
-
-	public Collection<Permission> getPermissionRootList() {
-		return permissionRoot.values();
-	}
-
-	public Long getIdPermission() {
-		return idPermission;
-	}
-
-	public void setIdPermission(Long idPermission) {
-		this.idPermission = idPermission;
-	}
-
-	public TreeNode[] getSelectedNodes() {
-		return selectedNodes;
-	}
-
-	public void setSelectedNodes(TreeNode[] selectedNodes) {
-		this.selectedNodes = selectedNodes;
 	}
 
 	public String getDialogMode() {
@@ -168,6 +97,14 @@ public class PermissionView implements Serializable {
 
 	public void setNewEntity(Permission newEntity) {
 		this.newEntity = newEntity;
+	}
+
+	public List<Permission> getPermissions() {
+		return permissions;
+	}
+
+	public void setPermissions(List<Permission> permissions) {
+		this.permissions = permissions;
 	}
 
 }

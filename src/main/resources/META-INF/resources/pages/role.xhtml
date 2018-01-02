@@ -44,11 +44,11 @@
 					</div>
 					<p:separator />
 					<div class="ui-g">
-						<div class="ui-g-4">
+						<div class="ui-g-6">
 							<p:dataTable id="roleTable" var="role"
 								value="#{roleView.roleSource}" paginator="true" rows="25"
 								widgetVar="roleTable" paginatorPosition="bottom"
-								paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} {Exporters}"
+								paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
 								rowsPerPageTemplate="25,50,100"
 								selectionMode="single" selection="#{roleView.selectedRole}"
 								rowKey="#{role.id}" emptyMessage="#{msg['table.empty']}">
@@ -83,9 +83,9 @@
 								</p:column>
 							</p:dataTable>
 						</div>
-						<div class="ui-g-8" id="treeDiv">
-							<p:treeTable id="permissionTree"
-								value="#{roleView.rootPermission}" var="permission"
+						<div class="ui-g-6" id="treeDiv">
+							<p:dataTable id="permissionTree"
+								value="#{roleView.permissions}" var="permission"
 								editable="true" widgetVar="permissionTreeVar"
 								emptyMessage="#{msg['table.empty']}">
 								<f:facet name="header">
@@ -102,25 +102,13 @@
 										</f:facet>
 									</p:cellEditor>
 								</p:column>
-								<p:column
-									headerText="#{msg['permission.table.header.component']}">
-									<p:cellEditor>
-										<f:facet name="output">
-											<h:outputText value="#{permission.permission.component}" />
-										</f:facet>
-										<f:facet name="input">
-											<p:inputText value="#{permission.permission.component}"
-												style="width:100%" />
-										</f:facet>
-									</p:cellEditor>
-								</p:column>
 								<p:column headerText="#{msg['permission.table.header.own']}">
 									<p:selectBooleanButton id="checkPer"
 										value="#{permission.check}" onLabel="#{msg['button.yes']}"
 										offLabel="#{msg['button.no']}" onIcon="ui-icon-check"
 										offIcon="ui-icon-close" />
 								</p:column>
-							</p:treeTable>
+							</p:dataTable>
 						</div>
 					</div>
 

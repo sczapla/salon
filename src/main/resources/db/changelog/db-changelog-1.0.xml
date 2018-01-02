@@ -20,7 +20,6 @@
 				<constraints nullable="false" />
 			</column>
 			<column name="version" type="BIGINT" />
-			<column name="component" type="VARCHAR(64)" />
 			<column name="name" type="VARCHAR(64)">
 				<constraints nullable="false" />
 			</column>
@@ -131,56 +130,94 @@
 	<changeSet id="1496828081377-22" author="sczapla">
 		<insert schemaName="public" tableName="role">
 			<column name="role_id" value="1" />
-			<column name="name" value="ROLE_ADMIN" />
+			<column name="name" value="KIEROWNIK" />
 			<column name="version" value="0" />
 		</insert>
 		<insert schemaName="public" tableName="role">
 			<column name="role_id" value="2" />
-			<column name="name" value="ROLE_USER" />
+			<column name="name" value="FRYZJER" />
+			<column name="version" value="0" />
+		</insert>
+		<insert schemaName="public" tableName="role">
+			<column name="role_id" value="3" />
+			<column name="name" value="KOSMETYCZKA" />
+			<column name="version" value="0" />
+		</insert>
+		<insert schemaName="public" tableName="role">
+			<column name="role_id" value="4" />
+			<column name="name" value="KLIENT" />
 			<column name="version" value="0" />
 		</insert>
 		<insert schemaName="public" tableName="permission">
 			<column name="permission_id" value="1" />
-			<column name="name" value="PERM_LOGIN" />
-			<column name="component" value="COMP_LOGIN" />
+			<column name="name" value="LOGOWANIE" />
 			<column name="version" value="0" />
 		</insert>
 		<insert schemaName="public" tableName="permission">
 			<column name="permission_id" value="2" />
-			<column name="name" value="PERM_VIEW" />
-			<column name="component" value="COMP_VIEW" />
+			<column name="name" value="REZEROWANIE" />
 			<column name="version" value="0" />
 		</insert>
 		<insert schemaName="public" tableName="permission">
 			<column name="permission_id" value="3" />
-			<column name="name" value="PERM_EDIT" />
-			<column name="component" value="COMP_EDIT" />
+			<column name="name" value="PRZEGLAD_GRAFIKOW" />
+			<column name="version" value="0" />
+		</insert>
+		<insert schemaName="public" tableName="permission">
+			<column name="permission_id" value="4" />
+			<column name="name" value="PRZEGLAD_HISTORII" />
 			<column name="version" value="0" />
 		</insert>
 		<insert schemaName="public" tableName="system_user">
 			<column name="system_user_id" value="1" />
-			<column name="email_address" value="admin@admin.pl" />
+			<column name="email_address" value="kierownik@kierownik.pl" />
 			<column name="phone_number" value="111222333" />
 			<column name="registration_date" valueDate="2000-01-01T00:00:00" />
 			<column name="password"
-				value="$2a$06$AFhxpPj1aQ.ALAt6jrJkVOeIi5XvleQgYSls/amg3tx3c3FFrLiea" />
-			<column name="first_name" value="adminName" />
-			<column name="surname" value="adminSurname" />
+				value="$2a$10$BV896A20SR4pN9pjVO73IuKHGf0/FFLvfsIPzZHrRBjiWmroSUcuS" />
+			<column name="first_name" value="Roksana" />
+			<column name="surname" value="Nowak" />
 			<column name="is_active" valueBoolean="true" />
-			<column name="description" value="admin test" />
+			<column name="description" value="Kierowniczka zakładu" />
 			<column name="version" value="0" />
 		</insert>
 		<insert schemaName="public" tableName="system_user">
 			<column name="system_user_id" value="2" />
-			<column name="email_address" value="user@user.pl" />
+			<column name="email_address" value="fryzjer1@fryzjer1.pl" />
 			<column name="phone_number" value="222333444" />
 			<column name="registration_date" valueDate="2000-02-02T00:00:00" />
 			<column name="password"
-				value="$2a$06$svnq7ZE03SiACHYuQ.1GpeVbWtCavl95FqdOXPMpZB5SDfy4.W7vi" />
-			<column name="first_name" value="userName" />
-			<column name="surname" value="userSurname" />
+				value="$2a$10$o1fl7rDVmCaExieje40EYO93DJ.F/uBJR4Q/XFMVA0pXt7TSHOBBS" />
+			<column name="first_name" value="Adela" />
+			<column name="surname" value="Kowalska" />
 			<column name="is_active" valueBoolean="true" />
-			<column name="description" value="user test" />
+			<column name="description" value="Fryzjer nr 1" />
+			<column name="version" value="0" />
+		</insert>
+		<insert schemaName="public" tableName="system_user">
+			<column name="system_user_id" value="3" />
+			<column name="email_address" value="kosmetyczka1@kosmetyczka1.pl" />
+			<column name="phone_number" value="222333555" />
+			<column name="registration_date" valueDate="2000-02-02T00:00:00" />
+			<column name="password"
+				value="$2a$10$skBXQYqvFW1MhinSChY50OP8d84FvQTVtE4dhSBgIJwAI/7VTpKz." />
+			<column name="first_name" value="Aniela" />
+			<column name="surname" value="Korzeń" />
+			<column name="is_active" valueBoolean="true" />
+			<column name="description" value="Kosmetyczka nr 1" />
+			<column name="version" value="0" />
+		</insert>
+		<insert schemaName="public" tableName="system_user">
+			<column name="system_user_id" value="4" />
+			<column name="email_address" value="klient1@klient1.pl" />
+			<column name="phone_number" value="222333666" />
+			<column name="registration_date" valueDate="2000-02-02T00:00:00" />
+			<column name="password"
+				value="$2a$10$6AxQUg8BUtGiaf65Mm3KQ.V.x929ggfD.BM0cAoekUOKpVIMSjAH." />
+			<column name="first_name" value="Marzena" />
+			<column name="surname" value="Grzyb" />
+			<column name="is_active" valueBoolean="true" />
+			<column name="description" value="Klient nr 1" />
 			<column name="version" value="0" />
 		</insert>
 	</changeSet>
@@ -193,25 +230,41 @@
 			<column name="system_user_id" value="2" />
 			<column name="role_id" value="2" />
 		</insert>
-		<insert schemaName="public" tableName="role_permission">
-			<column name="role_id" value="1" />
-			<column name="permission_id" value="2" />
+		<insert schemaName="public" tableName="system_user_role">
+			<column name="system_user_id" value="3" />
+			<column name="role_id" value="3" />
+		</insert>
+		<insert schemaName="public" tableName="system_user_role">
+			<column name="system_user_id" value="4" />
+			<column name="role_id" value="4" />
 		</insert>
 		<insert schemaName="public" tableName="role_permission">
 			<column name="role_id" value="1" />
 			<column name="permission_id" value="1" />
+		</insert>
+		<insert schemaName="public" tableName="role_permission">
+			<column name="role_id" value="2" />
+			<column name="permission_id" value="1" />
+		</insert>
+		<insert schemaName="public" tableName="role_permission">
+			<column name="role_id" value="3" />
+			<column name="permission_id" value="1" />
+		</insert>
+		<insert schemaName="public" tableName="role_permission">
+			<column name="role_id" value="4" />
+			<column name="permission_id" value="1" />
+		</insert>	
+		<insert schemaName="public" tableName="role_permission">
+			<column name="role_id" value="4" />
+			<column name="permission_id" value="2" />
+		</insert>
+		<insert schemaName="public" tableName="role_permission">
+			<column name="role_id" value="4" />
+			<column name="permission_id" value="4" />
 		</insert>
 		<insert schemaName="public" tableName="role_permission">
 			<column name="role_id" value="1" />
 			<column name="permission_id" value="3" />
-		</insert>
-		<insert schemaName="public" tableName="role_permission">
-			<column name="role_id" value="2" />
-			<column name="permission_id" value="2" />
-		</insert>
-		<insert schemaName="public" tableName="role_permission">
-			<column name="role_id" value="2" />
-			<column name="permission_id" value="1" />
 		</insert>
 	</changeSet>
 		

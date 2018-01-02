@@ -29,7 +29,7 @@ public class Role extends GenericEntity {
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles")
 	private Set<SystemUser> systemUser = new HashSet<>(0);
 
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "role_permission", //
 			joinColumns = @JoinColumn(name = "role_id"), //
 			inverseJoinColumns = @JoinColumn(name = "permission_id"))

@@ -1,6 +1,5 @@
 package com.sczapla.salon.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +15,6 @@ public class PermissionService {
 
 	@Autowired
 	private PermissionRepository permissionRepository;
-
-	public List<Permission> findAllRootPermission() {
-		return new ArrayList<Permission>((permissionRepository).findAllRootPermission());
-	}
 
 	public List<Permission> findAllOrderByNameAsc() {
 		return permissionRepository.findAllPermission();

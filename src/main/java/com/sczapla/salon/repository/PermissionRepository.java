@@ -10,9 +10,6 @@ import com.sczapla.salon.model.Permission;
 
 public interface PermissionRepository extends CrudRepository<Permission, Long> {
 
-	@Query(value = "FROM Permission per LEFT JOIN FETCH per.children WHERE per.parent IS NULL ")
-	Set<Permission> findAllRootPermission();
-
 	@Query(value = "FROM Permission per ORDER BY per.name ASC")
 	List<Permission> findAllPermission();
 

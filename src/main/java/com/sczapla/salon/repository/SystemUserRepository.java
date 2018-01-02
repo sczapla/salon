@@ -1,5 +1,7 @@
 package com.sczapla.salon.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -14,4 +16,7 @@ public interface SystemUserRepository extends CrudRepository<SystemUser, Long> {
 
 	@Query(value = "SELECT count(*) FROM SystemUser user WHERE user.emailAddress = :emailAddress")
 	Integer existEmail(@Param("emailAddress") String email);
+
+	@Query(value = "SELECT user FROM SystemUser user LEFT JOIN FETCH user.roles role " + "WHERE role.name = :roleName ")
+	List<SystemUser> findByRoleName(@Param("roleName") String roleName);
 }

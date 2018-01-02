@@ -1,6 +1,7 @@
 package com.sczapla.salon.view;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -11,7 +12,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.event.SelectEvent;
-import org.primefaces.model.CheckboxTreeNode;
 import org.primefaces.model.TreeNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -38,12 +38,12 @@ public class RoleView implements Serializable {
 	@Autowired
 	private RoleService roleService;
 
-	private TreeNode rootPermission;
+	private List<PermissionCheck> permissions;
+	private List<Permission> permissionAll;
 
 	private List<Role> roleSource;
 	private Long idRoleParent;
 	private Role selectedRole;
-	private TreeNode[] selectedPermission;
 	private String dialogMode;
 	private Role newEntity;
 
@@ -53,31 +53,17 @@ public class RoleView implements Serializable {
 		this.messagesBundle = application.getResourceBundle(context, "msg");
 	}
 
-	@SuppressWarnings("unchecked")
 	@PostConstruct
 	public void init() {
 		newEntity = new Role();
 		dialogMode = DialogMode.ADD.name();
+		permissions = new ArrayList<PermissionCheck>();
 		roleSource = (List<Role>) roleService.findAll();
-		List<Permission> permissionRootAll = permissionService.findAllRootPermission();
+		permissionAll = permissionService.findAllOrderByNameAsc();
 		if (roleSource.size() > 0) {
 			selectedRole = roleSource.get(0);
 		}
-		rootPermission = new CheckboxTreeNode(new PermissionCheck(), null);
-		for (Permission permission : permissionRootAll) {
-			createPermissionTree(rootPermission, permission);
-		}
-		checkPermission(selectedRole.getPermissions(), rootPermission);
-	}
-
-	private void createPermissionTree(TreeNode root, Permission permission) {
-		CheckboxTreeNode node = new CheckboxTreeNode(new PermissionCheck(permission, false), root);
-		node.setExpanded(true);
-		if (permission.getChildren() != null) {
-			for (Permission permissionChild : permission.getChildren()) {
-				createPermissionTree(node, permissionChild);
-			}
-		}
+		checkPermission(selectedRole.getPermissions());
 	}
 
 	public void add() {
@@ -97,7 +83,7 @@ public class RoleView implements Serializable {
 			// newEntity.setPermissions(parentRole.getPermissions());
 		}
 		try {
-			newEntity = (Role) roleService.save(newEntity);
+			newEntity = roleService.save(newEntity);
 			Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
 		} catch (Exception e) {
 			Utils.addDetailMessage(messagesBundle.getString("message.error.undefinedSaveException"),
@@ -105,13 +91,12 @@ public class RoleView implements Serializable {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public void savePermission() {
 		if (selectedRole != null) {
 			selectedRole.getPermissions().clear();
-			collectCheckedPermission(selectedRole.getPermissions(), rootPermission);
+			// collectCheckedPermission(selectedRole.getPermissions());
 			try {
-				newEntity = (Role) roleService.save(selectedRole);
+				newEntity = roleService.save(selectedRole);
 				Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
 			} catch (Exception e) {
 				Utils.addDetailMessage(messagesBundle.getString("message.error.undefinedSaveException"),
@@ -122,7 +107,7 @@ public class RoleView implements Serializable {
 
 	public void onRowSelect(SelectEvent event) {
 		Role role = (Role) event.getObject();
-		checkPermission(role.getPermissions(), rootPermission);
+		checkPermission(role.getPermissions());
 	}
 
 	private void collectCheckedPermission(Set<Permission> permissions, TreeNode rootNode) {
@@ -137,15 +122,11 @@ public class RoleView implements Serializable {
 		}
 	}
 
-	private void checkPermission(Set<Permission> permissions, TreeNode rootNode) {
-		for (TreeNode node : rootNode.getChildren()) {
-			PermissionCheck permissionNode = (PermissionCheck) node.getData();
-			boolean selected = permissions.contains(permissionNode.getPermission());
-			// node.setSelected(selected);
-			permissionNode.setCheck(selected);
-			if (!node.isLeaf()) {// && !selected) {
-				checkPermission(permissions, node);
-			}
+	private void checkPermission(Set<Permission> permissionRole) {
+		permissions.clear();
+		for (Permission permission : permissionAll) {
+			PermissionCheck permCheck = new PermissionCheck(permission, permissionRole.contains(permission));
+			permissions.add(permCheck);
 		}
 	}
 
@@ -165,12 +146,12 @@ public class RoleView implements Serializable {
 		this.idRoleParent = idRoleParent;
 	}
 
-	public TreeNode getRootPermission() {
-		return rootPermission;
+	public List<PermissionCheck> getPermissions() {
+		return permissions;
 	}
 
-	public void setRootPermission(TreeNode root) {
-		this.rootPermission = root;
+	public void setPermissions(List<PermissionCheck> permissions) {
+		this.permissions = permissions;
 	}
 
 	public Role getSelectedRole() {
@@ -179,14 +160,6 @@ public class RoleView implements Serializable {
 
 	public void setSelectedRole(Role selectedRole) {
 		this.selectedRole = selectedRole;
-	}
-
-	public TreeNode[] getSelectedPermission() {
-		return selectedPermission;
-	}
-
-	public void setSelectedPermission(TreeNode[] selectedPermission) {
-		this.selectedPermission = selectedPermission;
 	}
 
 	public String getDialogMode() {

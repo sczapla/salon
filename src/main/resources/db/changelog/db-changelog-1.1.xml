@@ -2,70 +2,7 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
 	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
-	<changeSet author="sczapla" id="1503573039371-1">
-		<addColumn schemaName="public" tableName="permission">
-			<column name="parent_id" type="BIGINT" />
-		</addColumn>
-		<addForeignKeyConstraint baseColumnNames="parent_id"
-			baseTableName="permission" constraintName="FKl71b9ib2ylhgyby4x7r5bof12"
-			deferrable="false" initiallyDeferred="false" referencedColumnNames="permission_id"
-			referencedTableName="permission" />
-	</changeSet>
-	<changeSet author="sczapla" id="1503573039371-2">
-		<insert schemaName="public" tableName="permission">
-			<column name="permission_id" value="4" />
-			<column name="name" value="PERM_EDIT_1" />
-			<column name="component" value="COMP_EDIT_1" />
-			<column name="version" value="0" />
-			<column name="parent_id" value="3" />
-		</insert>
-		<insert schemaName="public" tableName="permission">
-			<column name="permission_id" value="5" />
-			<column name="name" value="PERM_EDIT_1.1" />
-			<column name="component" value="COMP_EDIT_1.1" />
-			<column name="version" value="0" />
-			<column name="parent_id" value="4" />
-		</insert>
-		<insert schemaName="public" tableName="permission">
-			<column name="permission_id" value="6" />
-			<column name="name" value="PERM_VIEW_1" />
-			<column name="component" value="COMP_VIEW_1" />
-			<column name="version" value="0" />
-			<column name="parent_id" value="2" />
-		</insert>
-	</changeSet>
-	<changeSet author="sczapla" id="1503573039371-3">
-		<insert schemaName="public" tableName="role">
-			<column name="role_id" value="3" />
-			<column name="name" value="DEFAULT" />
-			<column name="version" value="0" />
-		</insert>
-		<insert schemaName="public" tableName="permission">
-			<column name="permission_id" value="7" />
-			<column name="name" value="PERM_EDIT_1.2" />
-			<column name="component" value="COMP_EDIT_1.2" />
-			<column name="version" value="0" />
-			<column name="parent_id" value="4" />
-		</insert>
-		<insert schemaName="public" tableName="permission">
-			<column name="permission_id" value="8" />
-			<column name="name" value="PERM_EDIT_2" />
-			<column name="component" value="COMP_EDIT_2" />
-			<column name="version" value="0" />
-			<column name="parent_id" value="3" />
-		</insert>
-		<insert schemaName="public" tableName="permission">
-			<column name="permission_id" value="9" />
-			<column name="name" value="PERM_EDIT_1.3" />
-			<column name="component" value="COMP_EDIT_1.3" />
-			<column name="version" value="0" />
-			<column name="parent_id" value="4" />
-		</insert>
-		<insert schemaName="public" tableName="role_permission">
-			<column name="permission_id" value="1" />
-			<column name="role_id" value="3" />
-		</insert>
-	</changeSet>
+
 	<changeSet author="sczapla" id="1503573039373-42">
 		<createTable tableName="visit">
 			<column name="visit_id" type="BIGINT">

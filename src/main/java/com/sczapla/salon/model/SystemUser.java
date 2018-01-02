@@ -52,7 +52,7 @@ public class SystemUser extends GenericEntity {
 	@Column(name = "registration_date", length = 64)
 	private Date registrationDate;
 
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name = "system_user_role", //
 			joinColumns = { @JoinColumn(name = "system_user_id") }, //
 			inverseJoinColumns = { @JoinColumn(name = "role_id") })
