@@ -32,7 +32,7 @@
 							update="systemUser:perDial" process="@this"
 							oncomplete="PF('newSystemUserDialog').show()" icon="fa fa-plus"
 							value="#{msg['button.add']}" styleClass="btn-primary"
-							resetValues="true" rendered="#{securityView.hasPermission('ADMINISTRACJA')}">
+							resetValues="true" rendered="#{securityService.hasPermission('ADMINISTRACJA')}">
 							<f:setPropertyActionListener value="ADD"
 								target="#{systemUserView.dialogMode}" />
 						</p:commandButton>

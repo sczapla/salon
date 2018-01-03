@@ -17,6 +17,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "system_user")
@@ -154,6 +155,11 @@ public class SystemUser extends GenericEntity {
 
 	public void setPosition(Position position) {
 		this.position = position;
+	}
+
+	@Transient
+	public String getName() {
+		return firstName + " " + surname;
 	}
 
 }

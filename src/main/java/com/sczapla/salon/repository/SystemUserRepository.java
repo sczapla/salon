@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+import com.sczapla.salon.model.Position;
 import com.sczapla.salon.model.SystemUser;
 
 public interface SystemUserRepository extends CrudRepository<SystemUser, Long> {
@@ -17,5 +18,5 @@ public interface SystemUserRepository extends CrudRepository<SystemUser, Long> {
 	@Query(value = "SELECT count(*) FROM SystemUser user WHERE user.emailAddress = :emailAddress")
 	Integer existEmail(@Param("emailAddress") String email);
 
-	List<SystemUser> findByPosition(String position);
+	List<SystemUser> findByPosition(Position position);
 }

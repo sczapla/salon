@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.sczapla.salon.model.Position;
 import com.sczapla.salon.model.SystemUser;
 import com.sczapla.salon.repository.SystemUserRepository;
 
@@ -16,7 +17,7 @@ public class SystemUserService {
 	@Autowired
 	private SystemUserRepository userRepository;
 
-	public List<SystemUser> findByPosition(String roleName) {
+	public List<SystemUser> findByPosition(Position roleName) {
 		return userRepository.findByPosition(roleName);
 	}
 

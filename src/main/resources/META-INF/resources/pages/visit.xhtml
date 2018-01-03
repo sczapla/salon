@@ -29,44 +29,54 @@
 				<div class="box-header with-border">
 
 					<p:wizard flowListener="#{visitView.onFlowProcess}"
-						nextLabel="#{msg['visit.next']}" showNavBar="true" backLabel="#{msg['visit.back']}">
+						nextLabel="#{msg['visit.next']}" showNavBar="true"
+						backLabel="#{msg['visit.back']}">
 						<p:tab id="offer" title="#{msg['visit.offer']}">
-						<p:panel id="offerPanel" styleClass="no-border">
-							<div style="text-align: center;">
-								<div style="display: inline-block;">
-								<p:selectBooleanCheckbox id="hairId" itemLabel="#{msg['visit.offer.hair']}" value="#{visitView.hair}" >
-									<p:ajax update="offerPanel" listener="#{visitView.changeOfferHair}" />
-									<p:graphicImage name="/images/fryzjer.jpg" />
-								</p:selectBooleanCheckbox>
-					
-								<p:selectBooleanCheckbox id="beautyId" itemLabel="#{msg['visit.offer.beauty']}" value="#{visitView.beautician}">
-									<p:ajax update="offerPanel" listener="#{visitView.changeOfferBeauty}" />
-									<p:graphicImage name="/images/kosmetyczka.jpg" />
-								</p:selectBooleanCheckbox>
+							<p:panel id="offerPanel" styleClass="no-border">
+								<div style="text-align: center;">
+									<div style="display: inline-block;">
+										<p:selectBooleanCheckbox id="hairId"
+											itemLabel="#{msg['visit.offer.hair']}"
+											value="#{visitView.hair}">
+											<p:ajax update="offerPanel"
+												listener="#{visitView.changeOfferHair}" />
+											<p:graphicImage name="/images/fryzjer.jpg" />
+										</p:selectBooleanCheckbox>
+
+										<p:selectBooleanCheckbox id="beautyId"
+											itemLabel="#{msg['visit.offer.beauty']}"
+											value="#{visitView.beautician}">
+											<p:ajax update="offerPanel"
+												listener="#{visitView.changeOfferBeauty}" />
+											<p:graphicImage name="/images/kosmetyczka.jpg" />
+										</p:selectBooleanCheckbox>
+									</div>
 								</div>
-							</div>
 							</p:panel>
 						</p:tab>
 						<p:tab id="person" title="#{msg['visit.person']}">
-							<div class="col-md-12 align-center" style="margin-top: 30px">
-								<p:selectBooleanCheckbox id="btDialogLogin3" itemLabel="Malwina">
-									<p:graphicImage name="/images/osoba.jpg" />
-								</p:selectBooleanCheckbox>
+							<div style="text-align: center;">
+								<div style="display: inline-block;margin-top: 30px">
+									<p:selectOneRadio id="city" value="#{visitView.selectedPerson}">
+										<f:selectItems value="#{visitView.personel}" var="c"
+											itemLabel="#{c.name}" itemValue="#{c.id}" />
+									</p:selectOneRadio>
+								</div>
 							</div>
-							<div class="col-sm-12 align-center" style="margin-top: 30px">
-								<p:selectBooleanCheckbox id="btDialogLogin4" itemLabel="Kalina">
-									<p:graphicImage name="/images/osoba.jpg" />
-								</p:selectBooleanCheckbox>
-							</div>
+
 						</p:tab>
 						<p:tab id="date" title="Personal3">
-									<p:schedule id="schedule" editable="false" value="#{visitView.eventModel}"
-										view="agendaWeek" allDaySlot="false" axisFormat="H:mm" draggable="false" resizable="false"
-										maxTime="19:00" minTime="9:00" scrollTime="false" ignoreTimezone="false" showWeekends="false"
-										widgetVar="myschedule" timeZone="GMT+2" locale="pl" aspectRatio="2.5" rightHeaderTemplate="agendaWeek">
-										<p:ajax event="eventSelect" listener="#{visitView.onEventSelect}" />
-									</p:schedule>
-						
+							<p:schedule id="schedule" editable="false"
+								value="#{visitView.eventModel}" view="agendaWeek"
+								allDaySlot="false" axisFormat="H:mm" draggable="false"
+								resizable="false" maxTime="19:00" minTime="9:00"
+								scrollTime="false" ignoreTimezone="false" showWeekends="false"
+								widgetVar="myschedule" timeZone="GMT+2" locale="pl"
+								aspectRatio="2.5" rightHeaderTemplate="agendaWeek">
+								<p:ajax event="eventSelect"
+									listener="#{visitView.onEventSelect}" />
+							</p:schedule>
+
 						</p:tab>
 					</p:wizard>
 

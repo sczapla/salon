@@ -31,6 +31,8 @@ public class VisitView implements Serializable {
 	private Visit newEntity;
 	private Boolean hair;
 	private Boolean beautician;
+	private List<SystemUser> personel;
+	private Long selectedPerson;
 
 	@Autowired
 	private ScheduleLazyModel eventModel;
@@ -69,6 +71,11 @@ public class VisitView implements Serializable {
 		hair = !beautician;
 	}
 
+	public void changePerson(Object event) {
+		int a = 0;
+		a++;
+	}
+
 	public void add() {
 		newEntity = new Visit();
 	}
@@ -79,8 +86,7 @@ public class VisitView implements Serializable {
 
 	public String onFlowProcess(FlowEvent event) {
 		if (event.getNewStep().equals(WizzardStep.person.name())) {
-			List<SystemUser> personel = userSerivice
-					.findByPosition(hair ? Position.FRYZJER.toString() : Position.KOSMETYCZKA.toString());
+			personel = userSerivice.findByPosition(hair ? Position.FRYZJER : Position.KOSMETYCZKA);
 		}
 		return event.getNewStep();
 	}
@@ -107,6 +113,22 @@ public class VisitView implements Serializable {
 
 	public void setBeautician(Boolean beautician) {
 		this.beautician = beautician;
+	}
+
+	public List<SystemUser> getPersonel() {
+		return personel;
+	}
+
+	public void setPersonel(List<SystemUser> personel) {
+		this.personel = personel;
+	}
+
+	public Long getSelectedPerson() {
+		return selectedPerson;
+	}
+
+	public void setSelectedPerson(Long selectedPerson) {
+		this.selectedPerson = selectedPerson;
 	}
 
 }
