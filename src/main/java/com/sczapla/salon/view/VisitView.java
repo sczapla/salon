@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.sczapla.salon.model.RoleEnum;
+import com.sczapla.salon.model.Position;
 import com.sczapla.salon.model.SystemUser;
 import com.sczapla.salon.model.Visit;
 import com.sczapla.salon.service.SystemUserService;
@@ -51,7 +51,8 @@ public class VisitView implements Serializable {
 	public void init() {
 		newEntity = new Visit();
 		hair = true;
-		// eventModel.addEvent(new DefaultScheduleEvent("Birthday Party", today1Pm(),
+		// eventModel.addEvent(new DefaultScheduleEvent("Birthday Party",
+		// today1Pm(),
 		// today6Pm()));
 	}
 
@@ -79,7 +80,7 @@ public class VisitView implements Serializable {
 	public String onFlowProcess(FlowEvent event) {
 		if (event.getNewStep().equals(WizzardStep.person.name())) {
 			List<SystemUser> personel = userSerivice
-					.findByRoleName(hair ? RoleEnum.FRYZJER.toString() : RoleEnum.KOSMETYCZKA.toString());
+					.findByPosition(hair ? Position.FRYZJER.toString() : Position.KOSMETYCZKA.toString());
 		}
 		return event.getNewStep();
 	}

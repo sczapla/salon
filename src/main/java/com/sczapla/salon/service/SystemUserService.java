@@ -16,8 +16,8 @@ public class SystemUserService {
 	@Autowired
 	private SystemUserRepository userRepository;
 
-	public List<SystemUser> findByRoleName(String roleName) {
-		return userRepository.findByRoleName(roleName);
+	public List<SystemUser> findByPosition(String roleName) {
+		return userRepository.findByPosition(roleName);
 	}
 
 	public boolean existEmail(String emial) {

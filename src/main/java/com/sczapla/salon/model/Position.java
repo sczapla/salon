@@ -1,5 +1,5 @@
 package com.sczapla.salon.model;
 
-public enum RoleEnum {
+public enum Position {
 	FRYZJER, KOSMETYCZKA
 }

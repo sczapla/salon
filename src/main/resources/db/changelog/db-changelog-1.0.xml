@@ -65,6 +65,7 @@
 			<column name="phone_number" type="VARCHAR(64)" />
 			<column name="registration_date" type="TIMESTAMP WITHOUT TIME ZONE" />
 			<column name="surname" type="VARCHAR(64)" />
+			<column name="position" type="VARCHAR(32)" />
 		</createTable>
 	</changeSet>
 	<changeSet author="sczapla (generated)" id="1503573039373-44">
@@ -135,16 +136,11 @@
 		</insert>
 		<insert schemaName="public" tableName="role">
 			<column name="role_id" value="2" />
-			<column name="name" value="FRYZJER" />
+			<column name="name" value="PRACOWNIK" />
 			<column name="version" value="0" />
 		</insert>
 		<insert schemaName="public" tableName="role">
 			<column name="role_id" value="3" />
-			<column name="name" value="KOSMETYCZKA" />
-			<column name="version" value="0" />
-		</insert>
-		<insert schemaName="public" tableName="role">
-			<column name="role_id" value="4" />
 			<column name="name" value="KLIENT" />
 			<column name="version" value="0" />
 		</insert>
@@ -166,6 +162,11 @@
 		<insert schemaName="public" tableName="permission">
 			<column name="permission_id" value="4" />
 			<column name="name" value="PRZEGLAD_HISTORII" />
+			<column name="version" value="0" />
+		</insert>
+		<insert schemaName="public" tableName="permission">
+			<column name="permission_id" value="5" />
+			<column name="name" value="ADMINISTRACJA" />
 			<column name="version" value="0" />
 		</insert>
 		<insert schemaName="public" tableName="system_user">
@@ -193,6 +194,7 @@
 			<column name="is_active" valueBoolean="true" />
 			<column name="description" value="Fryzjer nr 1" />
 			<column name="version" value="0" />
+			<column name="position" value="FRYZJER" />
 		</insert>
 		<insert schemaName="public" tableName="system_user">
 			<column name="system_user_id" value="3" />
@@ -206,6 +208,7 @@
 			<column name="is_active" valueBoolean="true" />
 			<column name="description" value="Kosmetyczka nr 1" />
 			<column name="version" value="0" />
+			<column name="position" value="KOSMETYCZKA" />
 		</insert>
 		<insert schemaName="public" tableName="system_user">
 			<column name="system_user_id" value="4" />
@@ -232,15 +235,19 @@
 		</insert>
 		<insert schemaName="public" tableName="system_user_role">
 			<column name="system_user_id" value="3" />
-			<column name="role_id" value="3" />
+			<column name="role_id" value="2" />
 		</insert>
 		<insert schemaName="public" tableName="system_user_role">
 			<column name="system_user_id" value="4" />
-			<column name="role_id" value="4" />
+			<column name="role_id" value="3" />
 		</insert>
 		<insert schemaName="public" tableName="role_permission">
 			<column name="role_id" value="1" />
 			<column name="permission_id" value="1" />
+		</insert>
+		<insert schemaName="public" tableName="role_permission">
+			<column name="role_id" value="1" />
+			<column name="permission_id" value="5" />
 		</insert>
 		<insert schemaName="public" tableName="role_permission">
 			<column name="role_id" value="2" />
@@ -249,22 +256,14 @@
 		<insert schemaName="public" tableName="role_permission">
 			<column name="role_id" value="3" />
 			<column name="permission_id" value="1" />
-		</insert>
-		<insert schemaName="public" tableName="role_permission">
-			<column name="role_id" value="4" />
-			<column name="permission_id" value="1" />
 		</insert>	
 		<insert schemaName="public" tableName="role_permission">
-			<column name="role_id" value="4" />
+			<column name="role_id" value="3" />
 			<column name="permission_id" value="2" />
 		</insert>
 		<insert schemaName="public" tableName="role_permission">
-			<column name="role_id" value="4" />
+			<column name="role_id" value="3" />
 			<column name="permission_id" value="4" />
-		</insert>
-		<insert schemaName="public" tableName="role_permission">
-			<column name="role_id" value="1" />
-			<column name="permission_id" value="3" />
 		</insert>
 	</changeSet>
 		

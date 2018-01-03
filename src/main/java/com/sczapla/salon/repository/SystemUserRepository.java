@@ -17,6 +17,5 @@ public interface SystemUserRepository extends CrudRepository<SystemUser, Long> {
 	@Query(value = "SELECT count(*) FROM SystemUser user WHERE user.emailAddress = :emailAddress")
 	Integer existEmail(@Param("emailAddress") String email);
 
-	@Query(value = "SELECT user FROM SystemUser user LEFT JOIN FETCH user.roles role " + "WHERE role.name = :roleName ")
-	List<SystemUser> findByRoleName(@Param("roleName") String roleName);
+	List<SystemUser> findByPosition(String position);
 }

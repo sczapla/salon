@@ -7,6 +7,8 @@ import java.util.Set;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -52,7 +54,11 @@ public class SystemUser extends GenericEntity {
 	@Column(name = "registration_date", length = 64)
 	private Date registrationDate;
 
-	@ManyToMany(fetch=FetchType.EAGER)
+	@Enumerated(EnumType.STRING)
+	@Column(name = "position")
+	private Position position;
+
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "system_user_role", //
 			joinColumns = { @JoinColumn(name = "system_user_id") }, //
 			inverseJoinColumns = { @JoinColumn(name = "role_id") })
@@ -140,6 +146,14 @@ public class SystemUser extends GenericEntity {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public Position getPosition() {
+		return position;
+	}
+
+	public void setPosition(Position position) {
+		this.position = position;
 	}
 
 }

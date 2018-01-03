@@ -33,8 +33,9 @@ public class AuthUserDetailsService implements UserDetailsService {
 		SystemUser systemUser = systemUserRepository.findByEmailAddress(userName);
 
 		if (systemUser != null) {
-			userdetails = new User(systemUser.getSurname(), systemUser.getPassword(), systemUser.getIsActive(),
-					accountNonExpired, credentialsNonExpired, accountNonLocked, getAuthorities(systemUser.getRoles()));
+			userdetails = new User(systemUser.getFirstName() + " " + systemUser.getSurname(), systemUser.getPassword(),
+					systemUser.getIsActive(), accountNonExpired, credentialsNonExpired, accountNonLocked,
+					getAuthorities(systemUser.getRoles()));
 		} else {
 			throw new UsernameNotFoundException(userName);
 		}
