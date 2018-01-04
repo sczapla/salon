@@ -1,6 +1,6 @@
 package com.sczapla.salon.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
@@ -12,8 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "visit")
@@ -30,13 +28,11 @@ public class Visit extends GenericEntity {
 	@Column(name = "comments", length = 256)
 	private String comments;
 
-	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "visit_from", nullable = false)
-	private Date visitFrom;
+	private LocalDateTime visitFrom;
 
-	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "visit_to", nullable = false)
-	private Date visitTo;
+	private LocalDateTime visitTo;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "system_user_from_id")
@@ -62,19 +58,19 @@ public class Visit extends GenericEntity {
 		this.comments = comments;
 	}
 
-	public Date getVisitFrom() {
+	public LocalDateTime getVisitFrom() {
 		return visitFrom;
 	}
 
-	public void setVisitFrom(Date visitFrom) {
+	public void setVisitFrom(LocalDateTime visitFrom) {
 		this.visitFrom = visitFrom;
 	}
 
-	public Date getVisitTo() {
+	public LocalDateTime getVisitTo() {
 		return visitTo;
 	}
 
-	public void setVisitTo(Date visitTo) {
+	public void setVisitTo(LocalDateTime visitTo) {
 		this.visitTo = visitTo;
 	}
 

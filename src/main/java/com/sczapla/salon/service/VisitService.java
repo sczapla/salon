@@ -1,6 +1,10 @@
 package com.sczapla.salon.service;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +28,15 @@ public class VisitService {
 
 	public Iterable<Visit> findAll() {
 		return visitRepository.findAll();
+	}
+
+	public List<Visit> findAllByUserPersonel(Long userFromId, Long userToId, LocalDateTime dateFrom,
+			LocalDateTime dateTo) {
+		return visitRepository.findAllByUserPersonel(userFromId, userToId, dateFrom, dateTo);
+	}
+
+	public List<Visit> findAllUserVisit(@Param("userFromId") Long userFromId) {
+		return visitRepository.findAllUserVisit(userFromId);
 	}
 
 }

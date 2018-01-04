@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/pages/template/template.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:adm="http://github.com/adminfaces"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<ui:define name="head-end">
+		<style type="text/css">
+.ui-datatable .ui-datatable-header {
+	text-align: right !important;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="title">
+        #{msg['page.history.title']}
+    </ui:define>
+
+	<ui:define name="description">
+        #{msg['page.history.description']}
+    </ui:define>
+
+	<ui:define name="body">
+		<h:form id="history">
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<p:dataTable id="historyTable" value="#{historyView.visits}"
+						paginator="true" rows="25" paginatorPosition="bottom"
+						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} "
+						rowsPerPageTemplate="25,50,100"	var="visit" emptyMessage="#{msg['table.empty']}">
+
+						<p:column headerText="#{msg['permission.table.header.name']}" >
+							<h:outputText value="#{visit.userTo.name}" />
+						</p:column>
+						<p:column headerText="#{msg['permission.table.header.name']}" >
+							<h:outputText value="#{visit.userTo.position}" />
+						</p:column>
+						<p:column headerText="#{msg['permission.table.header.name']}" >
+							<h:outputText value="#{visit.visitFrom}" converter="#{localDateTimeConverter}"/>
+						</p:column>
+						<p:column headerText="#{msg['permission.table.header.name']}" >
+							<h:outputText value="#{visit.visitTo}" converter="#{localDateTimeConverter}"/>
+						</p:column>
+						<p:column headerText="#{msg['permission.table.header.name']}" >
+							<h:outputText value="#{visit.status}" />
+						</p:column>
+						<p:column exportable="false" style="width:10%">
+							<p:commandButton id="delete" process="@this"
+								action="#{visitView.delete(visit)}"
+								update="history:historyTable" styleClass="btn-danger"
+								icon="fa fa-trash">
+								<p:confirm header="#{msg['confirmation.header']}"
+									message="#{msg['confirmation.delete']}" icon="ui-icon-alert" />
+							</p:commandButton>
+						</p:column>
+					</p:dataTable>
+
+
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+						styleClass="box-warning">
+						<p:commandButton value="#{msg['button.yes']}" type="button"
+							styleClass="btn-primary ui-confirmdialog-yes" icon="fa fa-check" />
+						<p:commandButton value="#{msg['button.no']}" type="button"
+							styleClass="btn-danger ui-confirmdialog-no" icon="fa fa-close" />
+					</p:confirmDialog>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+
+
+</ui:composition>

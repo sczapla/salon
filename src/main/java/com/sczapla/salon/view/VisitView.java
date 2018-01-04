@@ -1,6 +1,9 @@
 package com.sczapla.salon.view;
 
 import java.io.Serializable;
+import java.text.MessageFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -8,15 +11,17 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.Application;
 import javax.faces.context.FacesContext;
 
-import org.primefaces.event.FlowEvent;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.model.DefaultScheduleEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.sczapla.salon.model.Position;
+import com.sczapla.salon.model.Status;
 import com.sczapla.salon.model.SystemUser;
 import com.sczapla.salon.model.Visit;
+import com.sczapla.salon.service.SecurityService;
 import com.sczapla.salon.service.SystemUserService;
 import com.sczapla.salon.service.VisitService;
 import com.sczapla.salon.view.model.ScheduleLazyModel;
@@ -28,11 +33,10 @@ public class VisitView implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private final ResourceBundle messagesBundle;
 
-	private Visit newEntity;
-	private Boolean hair;
-	private Boolean beautician;
 	private List<SystemUser> personel;
-	private Long selectedPerson;
+	private Long selectedPersonel;
+	private Position selectedOffer;
+	private DefaultScheduleEvent selectedEvent;
 
 	@Autowired
 	private ScheduleLazyModel eventModel;
@@ -43,6 +47,9 @@ public class VisitView implements Serializable {
 	@Autowired
 	private SystemUserService userSerivice;
 
+	@Autowired
+	private SecurityService securityService;
+
 	public VisitView() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
@@ -51,44 +58,76 @@ public class VisitView implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		newEntity = new Visit();
-		hair = true;
-		// eventModel.addEvent(new DefaultScheduleEvent("Birthday Party",
-		// today1Pm(),
-		// today6Pm()));
+		selectedOffer = Position.FRYZJER;
+		personel = userSerivice.findByPosition(selectedOffer);
+		selectedPersonel = personel.get(0).getId();
+		eventModel.setUserTo(selectedPersonel);
+		eventModel.setUserFrom(securityService.getLoggedUser().getId());
 	}
 
 	public void onEventSelect(SelectEvent selectEvent) {
-		int a = 0;
-		a++;
-	}
-
-	public void changeOfferHair() {
-		beautician = !hair;
-	}
-
-	public void changeOfferBeauty() {
-		hair = !beautician;
-	}
-
-	public void changePerson(Object event) {
-		int a = 0;
-		a++;
-	}
-
-	public void add() {
-		newEntity = new Visit();
-	}
-
-	public void edit(Visit entity) {
-		newEntity = entity;
-	}
-
-	public String onFlowProcess(FlowEvent event) {
-		if (event.getNewStep().equals(WizzardStep.person.name())) {
-			personel = userSerivice.findByPosition(hair ? Position.FRYZJER : Position.KOSMETYCZKA);
+		DefaultScheduleEvent event = (DefaultScheduleEvent) selectEvent.getObject();
+		if (event.getTitle().equals(Status.WOLNE.name())) {
+			selectedEvent = event;
+		} else {
+			selectedEvent = null;
 		}
-		return event.getNewStep();
+	}
+
+	public void saveVisit() {
+		Visit visit = new Visit();
+		visit.setStatus(Status.ZAREZEROWANE);
+		visit.setVisitFrom(LocalDateTime.ofInstant(selectedEvent.getStartDate().toInstant(), ZoneId.systemDefault()));
+		visit.setVisitTo(LocalDateTime.ofInstant(selectedEvent.getEndDate().toInstant(), ZoneId.systemDefault()));
+		visit.setUserTo(getSelectedUser());
+		visit.setUserFrom(securityService.getLoggedUser());
+		visitService.save(visit);
+	}
+
+	public void changeOffer() {
+		personel = userSerivice.findByPosition(selectedOffer);
+		selectedPersonel = personel.get(0).getId();
+		eventModel.setUserTo(selectedPersonel);
+	}
+
+	public String getConfirmInfo1() {
+		if (selectedEvent == null) {
+			return messagesBundle.getString("visit.confirm.info.busy");
+		} else {
+			String msg = messagesBundle.getString("visit.confirm.info.free2");
+			return MessageFormat.format(msg, selectedEvent.getStartDate(), selectedEvent.getEndDate());
+		}
+	}
+
+	public String getConfirmInfo2() {
+		if (selectedEvent == null) {
+			return messagesBundle.getString("visit.confirm.info.busy");
+		} else {
+			String msg = messagesBundle.getString("visit.confirm.info.free3");
+			return MessageFormat.format(msg, selectedOffer.name());
+		}
+	}
+
+	public String getConfirmInfo3() {
+		if (selectedEvent == null) {
+			return messagesBundle.getString("visit.confirm.info.busy");
+		} else {
+			String msg = messagesBundle.getString("visit.confirm.info.free4");
+			return MessageFormat.format(msg, getSelectedUser().getName());
+		}
+	}
+
+	public void changePersonel() {
+		eventModel.setUserTo(selectedPersonel);
+	}
+
+	private SystemUser getSelectedUser() {
+		for (SystemUser user : personel) {
+			if (user.getId() == selectedPersonel) {
+				return user;
+			}
+		}
+		return null;
 	}
 
 	public ScheduleLazyModel getEventModel() {
@@ -99,22 +138,6 @@ public class VisitView implements Serializable {
 		this.eventModel = eventModel;
 	}
 
-	public Boolean getHair() {
-		return hair;
-	}
-
-	public void setHair(Boolean hair) {
-		this.hair = hair;
-	}
-
-	public Boolean getBeautician() {
-		return beautician;
-	}
-
-	public void setBeautician(Boolean beautician) {
-		this.beautician = beautician;
-	}
-
 	public List<SystemUser> getPersonel() {
 		return personel;
 	}
@@ -123,12 +146,32 @@ public class VisitView implements Serializable {
 		this.personel = personel;
 	}
 
-	public Long getSelectedPerson() {
-		return selectedPerson;
+	public Long getSelectedPersonel() {
+		return selectedPersonel;
 	}
 
-	public void setSelectedPerson(Long selectedPerson) {
-		this.selectedPerson = selectedPerson;
+	public void setSelectedPersonel(Long selectedPerson) {
+		this.selectedPersonel = selectedPerson;
+	}
+
+	public Position[] getOffer() {
+		return Position.values();
+	}
+
+	public Position getSelectedOffer() {
+		return selectedOffer;
+	}
+
+	public void setSelectedOffer(Position selectedOffer) {
+		this.selectedOffer = selectedOffer;
+	}
+
+	public DefaultScheduleEvent getSelectedEvent() {
+		return selectedEvent;
+	}
+
+	public void setSelectedEvent(DefaultScheduleEvent selectedEvent) {
+		this.selectedEvent = selectedEvent;
 	}
 
 }

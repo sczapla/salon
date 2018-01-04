@@ -5,7 +5,9 @@
 	template="/pages/template/template.xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:adm="http://github.com/adminfaces"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	>
 
 	<ui:define name="head-end">
 		<style type="text/css">
@@ -24,69 +26,82 @@
     </ui:define>
 
 	<ui:define name="body">
-		<h:form id="permission">
+		<h:form id="visit">
 			<div class="box box-primary">
 				<div class="box-header with-border">
+					<p:panel id="offerPanel" styleClass="no-border">
 
-					<p:wizard flowListener="#{visitView.onFlowProcess}"
-						nextLabel="#{msg['visit.next']}" showNavBar="true"
-						backLabel="#{msg['visit.back']}">
-						<p:tab id="offer" title="#{msg['visit.offer']}">
-							<p:panel id="offerPanel" styleClass="no-border">
-								<div style="text-align: center;">
-									<div style="display: inline-block;">
-										<p:selectBooleanCheckbox id="hairId"
-											itemLabel="#{msg['visit.offer.hair']}"
-											value="#{visitView.hair}">
-											<p:ajax update="offerPanel"
-												listener="#{visitView.changeOfferHair}" />
-											<p:graphicImage name="/images/fryzjer.jpg" />
-										</p:selectBooleanCheckbox>
-
-										<p:selectBooleanCheckbox id="beautyId"
-											itemLabel="#{msg['visit.offer.beauty']}"
-											value="#{visitView.beautician}">
-											<p:ajax update="offerPanel"
-												listener="#{visitView.changeOfferBeauty}" />
-											<p:graphicImage name="/images/kosmetyczka.jpg" />
-										</p:selectBooleanCheckbox>
-									</div>
-								</div>
-							</p:panel>
-						</p:tab>
-						<p:tab id="person" title="#{msg['visit.person']}">
-							<div style="text-align: center;">
+						<div style="text-align: center;">
 								<div style="display: inline-block;margin-top: 30px">
-									<p:selectOneRadio id="city" value="#{visitView.selectedPerson}">
-										<f:selectItems value="#{visitView.personel}" var="c"
-											itemLabel="#{c.name}" itemValue="#{c.id}" />
-									</p:selectOneRadio>
-								</div>
-							</div>
-
-						</p:tab>
-						<p:tab id="date" title="Personal3">
-							<p:schedule id="schedule" editable="false"
+								<p:outputLabel for="offer" value="#{msg['visit.offer']}" />
+								<p:selectOneRadio id="offer" value="#{visitView.selectedOffer}">
+									<f:selectItems value="#{visitView.offer}" var="offer"
+										itemLabel="#{offer}" itemValue="#{offer}" />
+									<p:ajax update="personelPanel schedulePanel" listener="#{visitView.changeOffer}" />
+								</p:selectOneRadio>
+						</div>
+						</div>
+					</p:panel>
+					<p:panel id="personelPanel" styleClass="no-border">
+						<div style="text-align: center;">
+								<div style="display: inline-block;margin-top: 30px">
+								<p:outputLabel for="personel" value="#{msg['visit.personel']}" />
+								<p:selectOneRadio id="personel" value="#{visitView.selectedPersonel}">
+									<f:selectItems value="#{visitView.personel}" var="personel"
+											itemLabel="#{personel.name}" itemValue="#{personel.id}" />
+									<p:ajax update="schedulePanel" listener="#{visitView.changePersonel}" />
+								</p:selectOneRadio>
+						</div>
+						</div>
+					</p:panel>
+					<p:panel id="schedulePanel" styleClass="no-border">
+					
+						<p:schedule id="schedule" editable="false"
 								value="#{visitView.eventModel}" view="agendaWeek"
 								allDaySlot="false" axisFormat="H:mm" draggable="false"
 								resizable="false" maxTime="19:00" minTime="9:00"
 								scrollTime="false" ignoreTimezone="false" showWeekends="false"
 								widgetVar="myschedule" timeZone="GMT+2" locale="pl"
 								aspectRatio="2.5" rightHeaderTemplate="agendaWeek">
-								<p:ajax event="eventSelect"
-									listener="#{visitView.onEventSelect}" />
+								<p:ajax update="reservationPanel" event="eventSelect"	listener="#{visitView.onEventSelect}" oncomplete="PF('reservationDialog').show();" />
 							</p:schedule>
+							
+					</p:panel>
 
-						</p:tab>
-					</p:wizard>
+					
+					<p:dialog id="visitDial"
+						header="#{msg['visit.confirm.header']}"
+						showEffect="fade" widgetVar="reservationDialog" modal="true"
+						resizable="false" class="box box-primary">
+						<p:outputPanel id="reservationPanel">
+							<div class="box-body">
+							<c:if test="#{not empty visitView.selectedEvent}">
+							#{msg['visit.confirm.info.free1']}<BR />
+								#{visitView.getConfirmInfo1()}<BR />
+								#{visitView.getConfirmInfo2()}<BR />
+								#{visitView.getConfirmInfo3()}<BR />
+							</c:if>
+							<c:if test="#{empty visitView.selectedEvent}">
+							#{msg['visit.confirm.info.busy']}
+							</c:if>
+							</div>
+							<p:separator />
+							<div id="save-buttons">
+							<c:if test="#{not empty visitView.selectedEvent}">
+								<p:commandButton icon="fa fa-plus" value="#{msg['button.yes']}"
+									styleClass="btn-danger btn-primary"
+									update="visit:schedulePanel"
+									action="#{visitView.saveVisit}"
+									oncomplete="if (args &amp;&amp; !args.validationFailed) PF('reservationDialog').hide()" />
+								<p:spacer width="10" />
+								</c:if>
+								<p:commandButton oncomplete="PF('reservationDialog').hide()"
+									icon="fa fa-close" value="#{msg['button.no']}"
+									styleClass="btn-default" />
+							</div>
 
-					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
-						styleClass="box-warning">
-						<p:commandButton value="#{msg['button.yes']}" type="button"
-							styleClass="btn-primary ui-confirmdialog-yes" icon="fa fa-check" />
-						<p:commandButton value="#{msg['button.no']}" type="button"
-							styleClass="btn-danger ui-confirmdialog-no" icon="fa fa-close" />
-					</p:confirmDialog>
+						</p:outputPanel>
+					</p:dialog>
 				</div>
 			</div>
 		</h:form>

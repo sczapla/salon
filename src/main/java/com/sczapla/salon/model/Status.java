@@ -1,5 +1,5 @@
 package com.sczapla.salon.model;
 
 public enum Status {
-	START, CANCEL, END
+	WOLNE, ZAREZEROWANE, ANULOWANE, ZAKONCZONE
 }
