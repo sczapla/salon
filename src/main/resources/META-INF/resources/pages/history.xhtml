@@ -51,7 +51,7 @@
 							<p:commandButton id="delete" process="@this"
 								action="#{visitView.delete(visit)}"
 								update="history:historyTable" styleClass="btn-danger"
-								icon="fa fa-trash">
+								icon="fa fa-trash" rendered="#{visit.status.name == 'ZAREZEROWANE'}">
 								<p:confirm header="#{msg['confirmation.header']}"
 									message="#{msg['confirmation.delete']}" icon="ui-icon-alert" />
 							</p:commandButton>
