@@ -23,18 +23,21 @@ public class ScheduleLazyModel extends LazyScheduleModel {
 
 	private Long userFrom;
 	private Long userTo;
+	private LocalDateTime now;
 
 	@Autowired
 	private VisitService visitService;
 
 	@Override
 	public void loadEvents(Date start, Date end) {
+		now = LocalDateTime.now();
 		LocalDateTime startDateDayTime = LocalDateTime.of(start.getYear() + 1900, start.getMonth() + 1, start.getDate(),
 				10, 0);
 		LocalDateTime endDateDayTime = LocalDateTime.of(start.getYear() + 1900, start.getMonth() + 1, start.getDate(),
 				17, 30);
 		LocalDateTime endDateTime = LocalDateTime.of(end.getYear() + 1900, end.getMonth() + 1, end.getDate(), 17, 30);
 		List<Visit> reservation = visitService.findAllByUserPersonel(userFrom, userTo, startDateDayTime, endDateTime);
+
 		for (LocalDateTime d = startDateDayTime; !d.isAfter(endDateTime); d = d.plusDays(1)) {
 			if (d.getDayOfWeek() != DayOfWeek.SUNDAY && d.getDayOfWeek() != DayOfWeek.SATURDAY) {
 				addDayEvents(d, endDateDayTime, reservation);
@@ -59,6 +62,9 @@ public class ScheduleLazyModel extends LazyScheduleModel {
 			if ((visit.getVisitFrom().compareTo(from) == 0) && (visit.getVisitTo().compareTo(to) == 0)) {
 				return visit.getStatus();
 			}
+		}
+		if (from.compareTo(now) < 0) {
+			return Status.ZAKONCZONE;
 		}
 		return Status.WOLNE;
 	}

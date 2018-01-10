@@ -48,7 +48,7 @@ public class HistoryView implements Serializable {
 	public void delete(Visit entity) {
 		entity.setStatus(Status.ANULOWANE);
 		visitService.save(entity);
-		Utils.addDetailMessage(messagesBundle.getString("info.save"), FacesMessage.SEVERITY_INFO);
+		Utils.addDetailMessage(messagesBundle.getString("cancel.visit.msg"), FacesMessage.SEVERITY_INFO);
 	}
 
 	public List<Visit> getVisits() {

@@ -30,30 +30,30 @@
 					<p:dataTable id="historyTable" value="#{historyView.visits}"
 						paginator="true" rows="25" paginatorPosition="bottom"
 						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} "
-						rowsPerPageTemplate="25,50,100"	var="visit" emptyMessage="#{msg['table.empty']}">
+						rowsPerPageTemplate="10,20,30"	var="visit" emptyMessage="#{msg['table.empty']}">
 
-						<p:column headerText="#{msg['permission.table.header.name']}" >
+						<p:column headerText="#{msg['history.table.header.name']}" >
 							<h:outputText value="#{visit.userTo.name}" />
 						</p:column>
-						<p:column headerText="#{msg['permission.table.header.name']}" >
+						<p:column headerText="#{msg['history.table.header.position']}" >
 							<h:outputText value="#{visit.userTo.position}" />
 						</p:column>
-						<p:column headerText="#{msg['permission.table.header.name']}" >
+						<p:column headerText="#{msg['history.table.header.dateFrom']}" >
 							<h:outputText value="#{visit.visitFrom}" converter="#{localDateTimeConverter}"/>
 						</p:column>
-						<p:column headerText="#{msg['permission.table.header.name']}" >
+						<p:column headerText="#{msg['history.table.header.dateTo']}" >
 							<h:outputText value="#{visit.visitTo}" converter="#{localDateTimeConverter}"/>
 						</p:column>
-						<p:column headerText="#{msg['permission.table.header.name']}" >
+						<p:column headerText="#{msg['history.table.header.status']}" >
 							<h:outputText value="#{visit.status}" />
 						</p:column>
 						<p:column exportable="false" style="width:10%">
 							<p:commandButton id="delete" process="@this"
-								action="#{visitView.delete(visit)}"
+								action="#{historyView.delete(visit)}"
 								update="history:historyTable" styleClass="btn-danger"
 								icon="fa fa-trash" rendered="#{visit.status.name == 'ZAREZEROWANE'}">
-								<p:confirm header="#{msg['confirmation.header']}"
-									message="#{msg['confirmation.delete']}" icon="ui-icon-alert" />
+								<p:confirm header="#{msg['cancel.visit.header']}"
+									message="#{msg['cancel.visit.confirmation']}" icon="ui-icon-alert" />
 							</p:commandButton>
 						</p:column>
 					</p:dataTable>
