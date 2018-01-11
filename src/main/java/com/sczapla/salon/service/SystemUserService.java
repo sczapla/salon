@@ -34,7 +34,7 @@ public class SystemUserService {
 	}
 
 	public Iterable<SystemUser> findAll() {
-		return userRepository.findAll();
+		return userRepository.findAllOrder();
 	}
 
 }

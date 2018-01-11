@@ -29,7 +29,7 @@
 				<div class="box-header with-border">
 					<div id="main-buttons">
 						<p:commandButton id="userAddButton" action="#{systemUserView.add}"
-							update="systemUser:perDial" process="@this"
+							update="systemUser:newSystemUserPanel" process="@this"
 							oncomplete="PF('newSystemUserDialog').show()" icon="fa fa-plus"
 							value="#{msg['button.add']}" styleClass="btn-primary"
 							resetValues="true" rendered="#{securityService.hasPermission('ADMINISTRACJA')}">
@@ -42,7 +42,7 @@
 					<p:dataTable id="systemUserTable" var="systemUser"
 						value="#{systemUserView.userSource}" paginator="true"
 						rows="25" widgetVar="systemUserTable" paginatorPosition="bottom"
-						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} {Exporters}"
+						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
 						rowsPerPageTemplate="25,50,100"
 						resizableColumns="true" emptyMessage="#{msg['table.empty']}">
 
@@ -55,10 +55,17 @@
 							sortBy="#{systemUser.surname}" filterBy="#{systemUser.surname}">
 							<h:outputText value="#{systemUser.surname}" />
 						</p:column>
+						<p:column headerText="#{msg['systemuser.table.header.phone']}"
+							sortBy="#{systemUser.surname}" filterBy="#{systemUser.phoneNumber}">
+							<h:outputText value="#{systemUser.phoneNumber}" />
+						</p:column>
 						<p:column headerText="#{msg['systemuser.table.header.email']}"
 							sortBy="#{systemUser.emailAddress}"
 							filterBy="#{systemUser.emailAddress}">
 							<h:outputText value="#{systemUser.emailAddress}" />
+						</p:column>
+						<p:column headerText="#{msg['systemuser.table.header.position']}">
+							<h:outputText value="#{systemUser.position}" />
 						</p:column>
 						
 						<p:column style="width:17%;text-align: right" exportable="false">
@@ -106,6 +113,37 @@
 											<p:message id="userSurNameMsg" for="userSurName" />
 										</div>
 										<div class="form-group">
+											<p:outputLabel for="userPhone"
+												value="#{msg['systemuser.table.header.phone']}:" />
+											<p:inputText id="userPhone" class="form-control"
+												value="#{systemUserView.newEntity.phoneNumber}" required="true"
+												requiredMessage="#{msg['required.empty']}" />
+											<p:message id="userPhoneMsg" for="userPhone" />
+										</div>
+										<div class="form-group">
+											<h:outputText value="Pracownik: " />
+											<p:selectBooleanCheckbox value="#{systemUserView.employee}" >
+												<p:ajax update="systemUser:newSystemUserPanel" />
+											</p:selectBooleanCheckbox>
+										</div>
+										<div class="form-group">
+										<p:panel id="positionPanel" rendered="#{systemUserView.employee}" styleClass="no-border">
+											<p:outputLabel for="userPosition"
+												value="#{msg['systemuser.table.header.position']}:" />
+											<p:selectOneMenu id="position" value="#{systemUserView.newEntity.position}" 
+												required="true" requiredMessage="#{msg['required.empty']}">
+												<f:selectItems value="#{systemUserView.positions}" />
+											</p:selectOneMenu>
+											<p:message id="userPosition" for="userPhone"/>
+											</p:panel>
+										</div>
+										<div class="form-group">
+											<p:outputLabel for="userDesc"
+												value="#{msg['systemuser.table.header.desc']}:" />
+											<p:inputText id="userDesc" class="form-control"
+												value="#{systemUserView.newEntity.description}"/>
+										</div>
+										<div class="form-group">
 											<p:outputLabel for="userPassword"
 												rendered="#{systemUserView.dialogMode ne 'VIEW'}"
 												value="#{msg['systemuser.table.header.password']}:" />
@@ -134,7 +172,7 @@
 											for="rolePickList" />
 										<p:pickList id="rolePickList" value="#{systemUserView.roles}"
 											var="role" itemLabel="#{role.name}" itemValue="#{role}"
-											converter="#{genericEntityConverter}">
+											converter="#{genericEntityConverter}" >
 											<f:facet name="sourceCaption">#{msg['systemuser.permission.available']}</f:facet>
 											<f:facet name="targetCaption">#{msg['systemuser.permission.choose']}</f:facet>
 										</p:pickList>

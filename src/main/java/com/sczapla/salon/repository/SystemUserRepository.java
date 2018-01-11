@@ -19,4 +19,7 @@ public interface SystemUserRepository extends CrudRepository<SystemUser, Long> {
 	Integer existEmail(@Param("emailAddress") String email);
 
 	List<SystemUser> findByPosition(Position position);
+
+	@Query(value = "FROM SystemUser ORDER BY surname ASC")
+	List<SystemUser> findAllOrder();
 }

@@ -1,8 +1,6 @@
 package com.sczapla.salon.view;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -11,9 +9,6 @@ import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
-import org.primefaces.event.RowEditEvent;
-import org.primefaces.model.CheckboxTreeNode;
-import org.primefaces.model.TreeNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -48,16 +43,6 @@ public class PermissionView implements Serializable {
 	public void init() {
 		permissions = permissionService.findAllOrderByNameAsc();
 		dialogMode = DialogMode.ADD.name();
-	}
-
-	public void permissionEdit(RowEditEvent event) {
-		FacesMessage msg = new FacesMessage("Document Edited", ((TreeNode) event.getObject()).toString());
-		FacesContext.getCurrentInstance().addMessage(null, msg);
-	}
-
-	public void permissionEditCancel(RowEditEvent event) {
-		FacesMessage msg = new FacesMessage("Edit Cancelled", ((TreeNode) event.getObject()).toString());
-		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
 	public void add() {

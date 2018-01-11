@@ -3,6 +3,7 @@ package com.sczapla.salon.view;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -13,11 +14,14 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.model.DualListModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import com.sczapla.salon.model.Position;
 import com.sczapla.salon.model.Role;
 import com.sczapla.salon.model.SystemUser;
 import com.sczapla.salon.service.RoleService;
@@ -31,6 +35,7 @@ public class SystemUserView implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private final ResourceBundle messagesBundle;
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	private DualListModel<Role> roles;
 
@@ -39,6 +44,7 @@ public class SystemUserView implements Serializable {
 	private String dialogMode;
 	private SystemUser newEntity;
 	private List<SystemUser> userSource;
+	private Boolean employee;
 
 	@Autowired
 	private RoleService roleService;
@@ -58,10 +64,11 @@ public class SystemUserView implements Serializable {
 
 	@PostConstruct
 	public void init() {
+		userSource = new ArrayList<SystemUser>();
 		dialogMode = DialogMode.ADD.name();
 		roleSource = (List<Role>) roleService.findAll();
 		roles = new DualListModel<Role>(new ArrayList<Role>(), new ArrayList<Role>());
-		userSource = (List<SystemUser>) systemUserService.findAll();
+		initTable();
 	}
 
 	public void add() {
@@ -75,17 +82,29 @@ public class SystemUserView implements Serializable {
 		if (dialogMode.equals(DialogMode.ADD.name())) {
 			newEntity.setPassword(bcryptEncoder.encode(newEntity.getPassword()));
 			newEntity.setIsActive(true);
+			newEntity.setRegistrationDate(new Date());
 		}
 
 		newEntity.setRoles(new HashSet<Role>(roles.getTarget()));
+		if (employee == false) {
+			newEntity.setPosition(null);
+		}
 
 		try {
 			newEntity = (SystemUser) systemUserService.save(newEntity);
 			Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
+			initTable();
 		} catch (Exception e) {
+			logger.error(e.getMessage());
 			Utils.addDetailMessage(messagesBundle.getString("message.error.undefinedSaveException"),
 					FacesMessage.SEVERITY_ERROR);
 		}
+	}
+
+	public void delete(SystemUser entity) {
+		systemUserService.delete(newEntity);
+		Utils.addDetailMessage(messagesBundle.getString("info.delete"), FacesMessage.SEVERITY_INFO);
+		initTable();
 	}
 
 	public void edit(SystemUser entity) {
@@ -94,11 +113,19 @@ public class SystemUserView implements Serializable {
 		roles.getTarget().addAll(entity.getRoles());
 		roles.getSource().addAll(roleSource);
 		roles.getSource().removeAll(entity.getRoles());
+		if (entity.getPosition() != null) {
+			employee = true;
+		}
 		newEntity = entity;
 	}
 
 	public void logout() throws IOException {
 		FacesContext.getCurrentInstance().getExternalContext().redirect("/appLogout");
+	}
+
+	private void initTable() {
+		userSource.clear();
+		userSource = (List<SystemUser>) systemUserService.findAll();
 	}
 
 	public DualListModel<Role> getRoles() {
@@ -139,6 +166,18 @@ public class SystemUserView implements Serializable {
 
 	public void setNewEntity(SystemUser newEntity) {
 		this.newEntity = newEntity;
+	}
+
+	public Position[] getPositions() {
+		return Position.values();
+	}
+
+	public Boolean getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Boolean employee) {
+		this.employee = employee;
 	}
 
 }

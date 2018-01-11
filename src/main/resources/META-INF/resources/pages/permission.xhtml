@@ -40,7 +40,7 @@
 					<p:separator />
 					<p:dataTable id="permissionTree" value="#{permissionView.permissions}"
 						paginator="true" rows="25" paginatorPosition="bottom"
-						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} {Exporters}"
+						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
 						rowsPerPageTemplate="25,50,100"	var="permission" emptyMessage="#{msg['table.empty']}">
 						<p:ajax event="rowEdit"
 							listener="#{permissionView.permissionEdit}"
