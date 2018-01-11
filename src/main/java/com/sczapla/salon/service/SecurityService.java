@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
+import com.sczapla.salon.model.Role;
 import com.sczapla.salon.model.SystemUser;
 import com.sczapla.salon.repository.SystemUserRepository;
 
@@ -48,6 +49,17 @@ public class SecurityService {
 			Collection<GrantedAuthority> authorities = user.getAuthorities();
 			for (GrantedAuthority auth : authorities) {
 				if (auth.getAuthority().equals(permission)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public boolean hasRole(String role) {
+		if (systemUser != null) {
+			for (Role userRole : systemUser.getRoles()) {
+				if (role.equals(userRole.getName())) {
 					return true;
 				}
 			}

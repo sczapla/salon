@@ -32,7 +32,11 @@ public class VisitService {
 
 	public List<Visit> findAllByUserPersonel(Long userFromId, Long userToId, LocalDateTime dateFrom,
 			LocalDateTime dateTo) {
-		return visitRepository.findAllByUserPersonel(userFromId, userToId, dateFrom, dateTo);
+		if (userFromId != null) {
+			return visitRepository.findAllByUserPersonel(userFromId, userToId, dateFrom, dateTo);
+		} else {
+			return visitRepository.findAllByPersonel(userToId, dateFrom, dateTo);
+		}
 	}
 
 	public List<Visit> findAllUserVisit(@Param("userFromId") Long userFromId) {

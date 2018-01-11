@@ -63,7 +63,9 @@
 								scrollTime="false" ignoreTimezone="false" showWeekends="false"
 								widgetVar="myschedule" timeZone="GMT+2" locale="pl"
 								aspectRatio="2.5" rightHeaderTemplate="agendaWeek">
-								<p:ajax update="reservationPanel" event="eventSelect"	listener="#{visitView.onEventSelect}" oncomplete="PF('reservationDialog').show();" />
+								<c:if test="#{securityService.hasRole('KLIENT')}">
+									<p:ajax update="reservationPanel" event="eventSelect"	listener="#{visitView.onEventSelect}" oncomplete="PF('reservationDialog').show();" />
+								</c:if>
 							</p:schedule>
 							
 					</p:panel>

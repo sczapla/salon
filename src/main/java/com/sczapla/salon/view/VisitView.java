@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -58,11 +59,23 @@ public class VisitView implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		selectedOffer = Position.FRYZJER;
-		personel = userSerivice.findByPosition(selectedOffer);
+		personel = new ArrayList<SystemUser>();
+		if (securityService.hasRole("KIEROWNIK")) {
+			selectedOffer = Position.FRYZJER;
+			personel = userSerivice.findByPosition(selectedOffer);
+			eventModel.setUserFrom(null);
+		} else if (securityService.hasRole("PRACOWNIK")) {
+			selectedOffer = securityService.getLoggedUser().getPosition();
+			personel.add(securityService.getLoggedUser());
+			eventModel.setUserFrom(null);
+		} else {
+			selectedOffer = Position.FRYZJER;
+			personel = userSerivice.findByPosition(selectedOffer);
+			eventModel.setUserFrom(securityService.getLoggedUser().getId());
+		}
 		selectedPersonel = personel.get(0).getId();
+		eventModel.setClient(securityService.hasRole("KLIENT"));
 		eventModel.setUserTo(selectedPersonel);
-		eventModel.setUserFrom(securityService.getLoggedUser().getId());
 	}
 
 	public void onEventSelect(SelectEvent selectEvent) {
@@ -155,6 +168,10 @@ public class VisitView implements Serializable {
 	}
 
 	public Position[] getOffer() {
+		if (securityService.hasRole("PRACOWNIK")) {
+			Position[] pos = { securityService.getLoggedUser().getPosition() };
+			return pos;
+		}
 		return Position.values();
 	}
 

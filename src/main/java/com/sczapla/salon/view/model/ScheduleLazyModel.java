@@ -24,6 +24,7 @@ public class ScheduleLazyModel extends LazyScheduleModel {
 	private Long userFrom;
 	private Long userTo;
 	private LocalDateTime now;
+	private boolean client = false;
 
 	@Autowired
 	private VisitService visitService;
@@ -63,7 +64,7 @@ public class ScheduleLazyModel extends LazyScheduleModel {
 				return visit.getStatus();
 			}
 		}
-		if (from.compareTo(now) < 0) {
+		if (isClient() && from.compareTo(now) < 0) {
 			return Status.ZAKONCZONE;
 		}
 		return Status.WOLNE;
@@ -75,6 +76,14 @@ public class ScheduleLazyModel extends LazyScheduleModel {
 
 	public void setUserTo(Long userTo) {
 		this.userTo = userTo;
+	}
+
+	public boolean isClient() {
+		return client;
+	}
+
+	public void setClient(boolean client) {
+		this.client = client;
 	}
 
 }

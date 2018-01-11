@@ -3,7 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:pe="http://primefaces.org/ui/extensions">
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
 <body>
 	<ui:composition>
 		<section class="sidebar"> <!-- Sidebar user panel (optional) -->
@@ -12,6 +13,7 @@
 			<li><a href="/pages/index.xhtml"> <i
 					class="fa fa-television"></i> <span>Pulpit</span>
 			</a></li>
+			<c:if test="#{securityService.hasRole('KIEROWNIK')}">
 			<li class="treeview"><a href="#"> <i class="fa fa-plug"></i>
 					<span>Administracja</span> <span class="pull-right-container">
 						<i class="fa fa-angle-left pull-right"></i>
@@ -24,7 +26,7 @@
 					<li><a href="/pages/permission.xhtml"><i
 							class="fa fa-circle-o"></i>#{msg['menu.permission']}</a></li>
 				</ul></li>
-
+			</c:if>
 			<li class="treeview"><a href="#"> <i
 					class="fa fa-check-circle-o"></i> <span>Wizyty</span> <span
 					class="pull-right-container"> <i
@@ -32,7 +34,9 @@
 				</span>
 			</a>
 				<ul class="treeview-menu">
+				<c:if test="#{securityService.hasRole('KLIENT')}">
 					<li><a href="/pages/history.xhtml"><i class="fa fa-circle-o"></i>Historia wizyt</a></li>
+					</c:if>
 					<li><a href="/pages/visit.xhtml"><i class="fa fa-circle-o"></i>Umów wizytę</a></li>
 				</ul></li>
 			</ul>

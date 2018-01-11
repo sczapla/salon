@@ -32,7 +32,7 @@
 			
 			<div class="col-xl-2 col-lg-3 col-md-4 col-sm-12">
 				<p:panel header="#{msg['page.history.title']}"
-					styleClass="box-box-primary">
+					styleClass="box-box-primary" rendered="#{securityService.hasRole('KLIENT')}">
 					<h:panelGrid columns="2" cellpadding="10">
 						<p:commandLink id="btDialogLogin2" title="#{msg['page.history.title']}"
 							action="#{linkView.goToHistory()}">
@@ -45,7 +45,7 @@
 			
 			<div class="col-xl-2 col-lg-3 col-md-4 col-sm-12">
 				<p:panel header="#{msg['page.systemuser.title']}"
-					styleClass="box-box-primary">
+					styleClass="box-box-primary" rendered="#{securityService.hasRole('KIEROWNIK')}">
 					<h:panelGrid columns="2" cellpadding="10">
 						<p:commandLink id="btDialogLogin3" title="#{msg['page.systemuser.title']}"
 							action="#{linkView.goToAdmin()}">
