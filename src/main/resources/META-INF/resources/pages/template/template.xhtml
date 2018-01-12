@@ -8,7 +8,7 @@
 
 <f:view contentType="text/html">
 	<h:head>
-		<title>#{msg['application.name.mini']}</title>
+		<title>#{msg['application.name.header']}</title>
 		<meta charset="utf-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport"
@@ -24,61 +24,7 @@
 			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 		<link rel="stylesheet"
 			href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
-		<!-- script type="text/javascript">
-    //<![CDATA[
-        PrimeFaces.widget.TreeTable.prototype.bindSelectionEvents = function() {
-            var $this = this,
-            rowSelector = '> tr.ui-treetable-selectable-node';
-
-            this.tbody.off('mouseover.treeTable mouseout.treeTable click.treeTable', rowSelector)
-                        .on('mouseover.treeTable', rowSelector, null, function(e) {
-                            var element = $(this);
-                            if(!element.hasClass('ui-state-highlight')) {
-                                element.addClass('ui-state-hover');
-
-                                if($this.isCheckboxSelection() && !$this.cfg.nativeElements) {
-                                    element.find('> td:first-child > div.ui-chkbox > div.ui-chkbox-box').addClass('ui-state-hover');
-                                }
-                            }
-                        })
-                        .on('mouseout.treeTable', rowSelector, null, function(e) {
-                            var element = $(this);
-                            if(!element.hasClass('ui-state-highlight')) {
-                                element.removeClass('ui-state-hover');
-
-                                if($this.isCheckboxSelection() && !$this.cfg.nativeElements) {
-                                    element.find('> td:first-child > div.ui-chkbox > div.ui-chkbox-box').removeClass('ui-state-hover');
-                                }
-                            }
-                        })
-                        .on('click.treeTable', rowSelector, null, function(e) {
-                            //$this.onRowClick(e, $(this));
-                            e.preventDefault();
-                        });
-
-            if(this.isCheckboxSelection()) {
-               var checkboxSelector =  this.cfg.nativeElements ? '> tr.ui-treetable-selectable-node > td:first-child :checkbox':
-                        '> tr.ui-treetable-selectable-node > td:first-child div.ui-chkbox-box';
-
-                    this.tbody.off('click.treeTable-checkbox', checkboxSelector)
-                          .on('click.treeTable-checkbox', checkboxSelector, null, function(e) {
-                              var node = $(this).closest('tr.ui-treetable-selectable-node');
-                              $this.toggleCheckboxNode(node);
-                              var element = document.getElementById('treeDiv');
-                              $(element).find('tr').css('color','');
-                              $(".ui-state-highlight").css("background-color","");
-                              //$('#treeDiv').find("*").removeClass("ui-state-highlight");
-                          });
-
-
-                    //initial partial selected visuals
-                    if(this.cfg.nativeElements) {
-                        this.indeterminateNodes(this.tbody.children('tr.ui-treetable-partialselected'));
-                    }
-            }
-        };
-    //]]>
-</script-->
+		
 	</h:head>
 	<h:body class="hold-transition skin-green sidebar-mini">
 		<p:ajaxStatus onstart="showBar();" onsuccess="hideBar();" />

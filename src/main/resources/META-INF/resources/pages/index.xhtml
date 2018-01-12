@@ -25,7 +25,7 @@
 							action="#{linkView.goToVisit()}">
 							<p:graphicImage name="/images/fryzjer.jpg" />
 						</p:commandLink>
-						<h:outputText value="The story begins as Don Vito Corleone..." />
+						<h:outputText value="#{msg['page.visit.description']}" />
 					</h:panelGrid>
 				</p:panel>
 			</div>
@@ -38,7 +38,7 @@
 							action="#{linkView.goToHistory()}">
 							<p:graphicImage name="/images/kosmetyczka.jpg" />
 						</p:commandLink>
-						<h:outputText value="The story begins as Don Vito Corleone..." />
+						<h:outputText value="#{msg['page.history.description']}" />
 					</h:panelGrid>
 				</p:panel>
 			</div>
@@ -51,7 +51,7 @@
 							action="#{linkView.goToAdmin()}">
 							<p:graphicImage name="/images/osoba.jpg" />
 						</p:commandLink>
-						<h:outputText value="The story begins as Don Vito Corleone..." />
+						<h:outputText value="#{msg['page.systemuser.description']}" />
 					</h:panelGrid>
 				</p:panel>
 			</div>
