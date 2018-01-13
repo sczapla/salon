@@ -22,9 +22,9 @@
 				<ul class="treeview-menu">
 					<li><a href="/pages/system-user.xhtml"><i
 							class="fa fa-circle-o"></i>#{msg['menu.user']}</a></li>
-					<li><a href="/pages/role.xhtml"><i class="fa fa-circle-o"></i>#{msg['menu.role']}</a></li>
+					<!-- li><a href="/pages/role.xhtml"><i class="fa fa-circle-o"></i>#{msg['menu.role']}</a></li>
 					<li><a href="/pages/permission.xhtml"><i
-							class="fa fa-circle-o"></i>#{msg['menu.permission']}</a></li>
+							class="fa fa-circle-o"></i>#{msg['menu.permission']}</a></li-->
 				</ul></li>
 			</c:if>
 			<li class="treeview"><a href="#"> <i
@@ -36,8 +36,11 @@
 				<ul class="treeview-menu">
 				<c:if test="#{securityService.hasRole('KLIENT')}">
 					<li><a href="/pages/history.xhtml"><i class="fa fa-circle-o"></i>Historia wizyt</a></li>
-					</c:if>
 					<li><a href="/pages/visit.xhtml"><i class="fa fa-circle-o"></i>Umów wizytę</a></li>
+				</c:if>
+				<c:if test="#{!securityService.hasRole('KLIENT')}">
+					<li><a href="/pages/visit.xhtml"><i class="fa fa-circle-o"></i>Zobacz grafik</a></li>
+				</c:if>
 				</ul></li>
 			</ul>
 		</section>
