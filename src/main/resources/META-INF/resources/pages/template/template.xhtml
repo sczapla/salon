@@ -4,7 +4,8 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
 
 <f:view contentType="text/html">
 	<h:head>
@@ -58,8 +59,14 @@
 			<div id="content" class="content-wrapper">
 				<section class="content-header">
 					<h1>
-						<ui:insert name="title" />
-						<small><ui:insert name="description" /></small>
+						<c:if test="#{securityService.hasRole('KLIENT')}">
+							<ui:insert name="title" />
+							<small><ui:insert name="description" /></small>
+						</c:if>
+						<c:if test="#{!securityService.hasRole('KLIENT')}">
+							<ui:insert name="title2" />
+							<small><ui:insert name="description2" /></small>
+						</c:if>
 					</h1>
 					<ui:fragment>
 						<p:breadCrumb class="breadcrumb" model="#{breadCrumbBean.model}" />
