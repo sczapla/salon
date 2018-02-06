@@ -23,7 +23,7 @@
 					<h:panelGrid columns="2" cellpadding="10">
 						<p:commandLink id="visitCL" title="#{msg['page.visit.title']}"
 							action="#{linkView.goToVisit()}">
-							<p:graphicImage name="/images/fryzjer.jpg" />
+							<p:graphicImage id="visitKlientLinkId" name="/images/fryzjer.jpg" />
 						</p:commandLink>
 						<h:outputText value="#{msg['page.visit.description']}" />
 					</h:panelGrid>
@@ -33,7 +33,7 @@
 					<h:panelGrid columns="2" cellpadding="10">
 						<p:commandLink id="visitCL2" title="#{msg['page.visit.title2']}"
 							action="#{linkView.goToVisit()}">
-							<p:graphicImage name="/images/fryzjer.jpg" />
+							<p:graphicImage id="visitLinkId" name="/images/fryzjer.jpg" />
 						</p:commandLink>
 						<h:outputText value="#{msg['page.visit.description2']}" />
 					</h:panelGrid>
@@ -46,7 +46,7 @@
 					<h:panelGrid columns="2" cellpadding="10">
 						<p:commandLink id="btDialogLogin2" title="#{msg['page.history.title']}"
 							action="#{linkView.goToHistory()}">
-							<p:graphicImage name="/images/kosmetyczka.jpg" />
+							<p:graphicImage id="historyLinkId" name="/images/kosmetyczka.jpg" />
 						</p:commandLink>
 						<h:outputText value="#{msg['page.history.description']}" />
 					</h:panelGrid>
@@ -59,7 +59,7 @@
 					<h:panelGrid columns="2" cellpadding="10">
 						<p:commandLink id="btDialogLogin3" title="#{msg['page.systemuser.title']}"
 							action="#{linkView.goToAdmin()}">
-							<p:graphicImage name="/images/osoba.jpg" />
+							<p:graphicImage id="userLinkId" name="/images/osoba.jpg" />
 						</p:commandLink>
 						<h:outputText value="#{msg['page.systemuser.description']}" />
 					</h:panelGrid>
