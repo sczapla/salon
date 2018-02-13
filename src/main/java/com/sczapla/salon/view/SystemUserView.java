@@ -102,7 +102,7 @@ public class SystemUserView implements Serializable {
 	}
 
 	public void delete(SystemUser entity) {
-		systemUserService.delete(newEntity);
+		systemUserService.delete(entity);
 		Utils.addDetailMessage(messagesBundle.getString("info.delete"), FacesMessage.SEVERITY_INFO);
 		initTable();
 	}
