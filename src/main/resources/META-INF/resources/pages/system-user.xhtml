@@ -103,7 +103,7 @@
 						<p:outputPanel id="newSystemUserPanel">
 							<div class="box-body">
 								<p:tabView>
-        							<p:tab title="#{msg['systemuser.table.tab.data']}">
+        							<p:tab id="userTab" title="#{msg['systemuser.table.tab.data']}">
 										<div class="form-group">
 											<p:outputLabel for="userFirstName"
 												value="#{msg['systemuser.table.header.firstname']}:" />
@@ -175,7 +175,7 @@
 											<p:message id="userMailMsg" for="userMail" />
 										</div>
 									</p:tab>
-									<p:tab title="#{msg['systemuser.table.tab.role']}">
+									<p:tab id="roleTab" title="#{msg['systemuser.table.tab.role']}">
 										<p:outputLabel value="#{msg['systemuser.table.header.role']}:"
 											for="rolePickList" />
 										<p:pickList id="rolePickList" value="#{systemUserView.roles}"
