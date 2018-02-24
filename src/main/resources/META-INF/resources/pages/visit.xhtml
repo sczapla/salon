@@ -97,7 +97,7 @@
 							<p:separator />
 							<div id="save-buttons">
 							<c:if test="#{not empty visitView.selectedEvent}">
-								<p:commandButton icon="fa fa-plus" value="#{msg['button.yes']}"
+								<p:commandButton id="confirmBt" icon="fa fa-plus" value="#{msg['button.yes']}"
 									styleClass="btn-danger btn-primary"
 									update="visit:schedulePanel"
 									action="#{visitView.saveVisit}"
