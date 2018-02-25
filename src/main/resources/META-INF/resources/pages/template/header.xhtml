@@ -26,7 +26,7 @@
 					<li class="user user-menu"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown"> <span class="hidden-xs">#{securityService.username}</span>
 					</a></li>
-					<li><p:commandLink
+					<li><p:commandLink id="exitBt"
 							action="#{systemUserView.logout()}" class="fa fa-sign-out">
 							<p:confirm header="#{msg['confirmation.header']}"
 								message="#{msg['confirmation.logout']}" icon="ui-icon-alert" />
