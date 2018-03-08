@@ -89,7 +89,7 @@ public class VisitView implements Serializable {
 
 	public void saveVisit() {
 		Visit visit = new Visit();
-		visit.setStatus(Status.ZAREZEROWANE);
+		visit.setStatus(Status.ZAREZERWOWANE);
 		visit.setVisitFrom(LocalDateTime.ofInstant(selectedEvent.getStartDate().toInstant(), ZoneId.systemDefault()));
 		visit.setVisitTo(LocalDateTime.ofInstant(selectedEvent.getEndDate().toInstant(), ZoneId.systemDefault()));
 		visit.setUserTo(getSelectedUser());
