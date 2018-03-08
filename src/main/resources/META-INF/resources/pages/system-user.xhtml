@@ -60,11 +60,11 @@
 							<h:outputText value="#{systemUser.firstName}" />
 						</p:column>
 						<p:column headerText="#{msg['systemuser.table.header.surname']}"
-							sortBy="#{systemUser.surname}" filterBy="#{systemUser.surname}">
+							sortBy="#{systemUser.surname}" filterBy="#{systemUser.surname}" id="surnameColId">
 							<h:outputText value="#{systemUser.surname}" />
 						</p:column>
 						<p:column headerText="#{msg['systemuser.table.header.phone']}"
-							sortBy="#{systemUser.surname}" filterBy="#{systemUser.phoneNumber}">
+							sortBy="#{systemUser.surname}" filterBy="#{systemUser.phoneNumber}" id="phoneColId">
 							<h:outputText value="#{systemUser.phoneNumber}" />
 						</p:column>
 						<p:column headerText="#{msg['systemuser.table.header.email']}"
@@ -101,10 +101,10 @@
 						showEffect="fade" widgetVar="newSystemUserDialog" modal="true"
 						resizable="false" class="box box-primary">
 						<p:outputPanel id="newSystemUserPanel">
-							<div class="box-body">
-								<p:tabView>
+							<div class="box-body" id="userData">
+								<p:tabView id="userTabView">
         							<p:tab id="userTab" title="#{msg['systemuser.table.tab.data']}">
-										<div class="form-group">
+										<div class="form-group" id="userFirstNameDiv">
 											<p:outputLabel for="userFirstName"
 												value="#{msg['systemuser.table.header.firstname']}:" />
 											<p:inputText id="userFirstName" class="form-control"
