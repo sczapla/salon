@@ -22,7 +22,7 @@ public interface VisitRepository extends CrudRepository<Visit, Long> {
 	List<Visit> findAllByPersonel(@Param("userToId") Long userToId, @Param("dateFrom") LocalDateTime dateFrom,
 			@Param("dateTo") LocalDateTime dateTo);
 
-	@Query(value = "FROM Visit visit WHERE visit.userFrom.id = :userFromId ORDER BY visit.visitFrom DESC")
+	@Query(value = "FROM Visit visit WHERE visit.userFrom.id = :userFromId ORDER BY visit.visitFrom DESC, visit.id DESC")
 	List<Visit> findAllUserVisit(@Param("userFromId") Long userFromId);
 
 	@Modifying
