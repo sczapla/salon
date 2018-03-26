@@ -13,7 +13,7 @@ import com.sczapla.salon.model.Visit;
 public interface VisitRepository extends CrudRepository<Visit, Long> {
 
 	@Query(value = "FROM Visit visit WHERE visit.userFrom.id = :userFromId and visit.userTo.id = :userToId "
-			+ "and visit.visitFrom >= :dateFrom and visit.visitTo <= :dateTo " + "and visit.status = 'ZAREZEROWANE'")
+			+ "and visit.visitFrom >= :dateFrom and visit.visitTo <= :dateTo " + "and visit.status = 'ZAREZERWOWANE'")
 	List<Visit> findAllByUserPersonel(@Param("userFromId") Long userFromId, @Param("userToId") Long userToId,
 			@Param("dateFrom") LocalDateTime dateFrom, @Param("dateTo") LocalDateTime dateTo);
 

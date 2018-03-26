@@ -1,120 +1,122 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	template="/pages/template/template.xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:adm="http://github.com/adminfaces"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	>
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/pages/template/template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:adm="http://github.com/adminfaces"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+>
 
-	<ui:define name="head-end">
-		<style type="text/css">
-.ui-datatable .ui-datatable-header {
-	text-align: right !important;
-}
-</style>
-	</ui:define>
-	<ui:define name="title">
+    <ui:define name="head-end">
+        <style type="text/css">
+            .ui-datatable .ui-datatable-header {
+                text-align: right !important;
+            }
+        </style>
+    </ui:define>
+    <ui:define name="title">
         #{msg['page.visit.title']}
     </ui:define>
 
-	<ui:define name="description">
+    <ui:define name="description">
         #{msg['page.visit.description']}
     </ui:define>
 
-	<ui:define name="title2">
+    <ui:define name="title2">
         #{msg['page.visit.title2']}
     </ui:define>
 
-	<ui:define name="description2">
+    <ui:define name="description2">
         #{msg['page.visit.description2']}
     </ui:define>
 
-	<ui:define name="body">
-		<h:form id="visit">
-			<div class="box box-primary">
-				<div class="box-header with-border">
-					<p:panel id="offerPanel" styleClass="no-border">
+    <ui:define name="body">
+        <h:form id="visit">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <p:panel id="offerPanel" styleClass="no-border">
 
-						<div style="text-align: center;">
-								<div style="display: inline-block;margin-top: 30px">
-								<p:outputLabel for="offer" value="#{msg['visit.offer']}" />
-								<p:selectOneRadio id="offer" value="#{visitView.selectedOffer}">
-									<f:selectItems value="#{visitView.offer}" var="offer"
-										itemLabel="#{offer}" itemValue="#{offer}" />
-									<p:ajax update="personelPanel schedulePanel" listener="#{visitView.changeOffer}" />
-								</p:selectOneRadio>
-						</div>
-						</div>
-					</p:panel>
-					<p:panel id="personelPanel" styleClass="no-border">
-						<div style="text-align: center;">
-								<div style="display: inline-block;margin-top: 30px">
-								<p:outputLabel for="personel" value="#{msg['visit.personel']}" />
-								<p:selectOneRadio id="personel" value="#{visitView.selectedPersonel}">
-									<f:selectItems value="#{visitView.personel}" var="personel"
-											itemLabel="#{personel.name}" itemValue="#{personel.id}" />
-									<p:ajax update="schedulePanel" listener="#{visitView.changePersonel}" />
-								</p:selectOneRadio>
-						</div>
-						</div>
-					</p:panel>
-					<p:panel id="schedulePanel" styleClass="no-border">
-					
-						<p:schedule id="schedule" editable="false"
-								value="#{visitView.eventModel}" view="agendaWeek"
-								allDaySlot="false" axisFormat="H:mm" draggable="false"
-								resizable="false" maxTime="19:00" minTime="9:00"
-								scrollTime="false" showWeekends="false"
-								widgetVar="myschedule" locale="pl"
-								aspectRatio="2.5" rightHeaderTemplate="agendaWeek">
-								<c:if test="#{securityService.hasRole('KLIENT')}">
-									<p:ajax update="reservationPanel" event="eventSelect"	listener="#{visitView.onEventSelect}" oncomplete="PF('reservationDialog').show();" />
-								</c:if>
-							</p:schedule>
-							
-					</p:panel>
+                        <div style="text-align: center;">
+                            <div style="display: inline-block;margin-top: 30px">
+                                <p:outputLabel for="offer" value="#{msg['visit.offer']}"/>
+                                <p:selectOneRadio id="offer" value="#{visitView.selectedOffer}">
+                                    <f:selectItems value="#{visitView.offer}" var="offer"
+                                                   itemLabel="#{offer}" itemValue="#{offer}"/>
+                                    <p:ajax update="personelPanel schedulePanel" listener="#{visitView.changeOffer}"/>
+                                </p:selectOneRadio>
+                            </div>
+                        </div>
+                    </p:panel>
+                    <p:panel id="personelPanel" styleClass="no-border">
+                        <div style="text-align: center;">
+                            <div style="display: inline-block;margin-top: 30px">
+                                <p:outputLabel for="personel" value="#{msg['visit.personel']}"/>
+                                <p:selectOneRadio id="personel" value="#{visitView.selectedPersonel}">
+                                    <f:selectItems value="#{visitView.personel}" var="personel"
+                                                   itemLabel="#{personel.name}" itemValue="#{personel.id}"/>
+                                    <p:ajax update="schedulePanel" listener="#{visitView.changePersonel}"/>
+                                </p:selectOneRadio>
+                            </div>
+                        </div>
+                    </p:panel>
+                    <p:panel id="schedulePanel" styleClass="no-border">
 
-					
-					<p:dialog id="visitDial"
-						header="#{msg['visit.confirm.header']}"
-						showEffect="fade" widgetVar="reservationDialog" modal="true"
-						resizable="false" class="box box-primary">
-						<p:outputPanel id="reservationPanel">
-							<div class="box-body">
-							<c:if test="#{not empty visitView.selectedEvent}">
-							#{msg['visit.confirm.info.free1']}<BR />
-								#{visitView.getConfirmInfo1()}<BR />
-								#{visitView.getConfirmInfo2()}<BR />
-								#{visitView.getConfirmInfo3()}<BR />
-							</c:if>
-							<c:if test="#{empty visitView.selectedEvent}">
-							#{msg['visit.confirm.info.busy']}
-							</c:if>
-							</div>
-							<p:separator />
-							<div id="save-buttons">
-							<c:if test="#{not empty visitView.selectedEvent}">
-								<p:commandButton id="confirmBt" icon="fa fa-plus" value="#{msg['button.yes']}"
-									styleClass="btn-danger btn-primary"
-									update="visit:schedulePanel"
-									action="#{visitView.saveVisit}"
-									oncomplete="if (args &amp;&amp; !args.validationFailed) PF('reservationDialog').hide()" />
-								<p:spacer width="10" />
-								</c:if>
-								<p:commandButton oncomplete="PF('reservationDialog').hide()"
-									icon="fa fa-close" value="#{msg['button.no']}"
-									styleClass="btn-default" />
-							</div>
+                        <p:schedule id="schedule" editable="false"
+                                    value="#{visitView.eventModel}" view="agendaWeek"
+                                    allDaySlot="false" axisFormat="H:mm" draggable="false"
+                                    resizable="false" maxTime="19:00" minTime="9:00"
+                                    scrollTime="false" showWeekends="false"
+                                    widgetVar="myschedule" timeZone="GMT+2" locale="pl"
+                                    aspectRatio="2.5" rightHeaderTemplate="agendaWeek">
+                            <c:if test="#{securityService.hasRole('KLIENT')}">
+                                <p:ajax update="reservationPanel" event="eventSelect"
+                                        listener="#{visitView.onEventSelect}"
+                                        oncomplete="PF('reservationDialog').show();"/>
+                            </c:if>
+                        </p:schedule>
 
-						</p:outputPanel>
-					</p:dialog>
-				</div>
-			</div>
-		</h:form>
-	</ui:define>
+                    </p:panel>
+
+
+                    <p:dialog id="visitDial"
+                              header="#{msg['visit.confirm.header']}"
+                              showEffect="fade" widgetVar="reservationDialog" modal="true"
+                              resizable="false" class="box box-primary">
+                        <p:outputPanel id="reservationPanel">
+                            <div class="box-body">
+                                <c:if test="#{not empty visitView.selectedEvent}">
+                                    #{msg['visit.confirm.info.free1']}<BR/>
+                                    #{visitView.getConfirmInfo1()}<BR/>
+                                    #{visitView.getConfirmInfo2()}<BR/>
+                                    #{visitView.getConfirmInfo3()}<BR/>
+                                </c:if>
+                                <c:if test="#{empty visitView.selectedEvent}">
+                                    #{msg['visit.confirm.info.busy']}
+                                </c:if>
+                            </div>
+                            <p:separator/>
+                            <div id="save-buttons">
+                                <c:if test="#{not empty visitView.selectedEvent}">
+                                    <p:commandButton id="confirmBt" icon="fa fa-plus" value="#{msg['button.yes']}"
+                                                     styleClass="btn-danger btn-primary"
+                                                     update="visit:schedulePanel"
+                                                     action="#{visitView.saveVisit}"
+                                                     oncomplete="if (args &amp;&amp; !args.validationFailed) PF('reservationDialog').hide()"/>
+                                    <p:spacer width="10"/>
+                                </c:if>
+                                <p:commandButton oncomplete="PF('reservationDialog').hide()"
+                                                 icon="fa fa-close" value="#{msg['button.no']}"
+                                                 styleClass="btn-default"/>
+                            </div>
+
+                        </p:outputPanel>
+                    </p:dialog>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
 
 
 </ui:composition>
