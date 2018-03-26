@@ -67,8 +67,8 @@
 								value="#{visitView.eventModel}" view="agendaWeek"
 								allDaySlot="false" axisFormat="H:mm" draggable="false"
 								resizable="false" maxTime="19:00" minTime="9:00"
-								scrollTime="false" ignoreTimezone="false" showWeekends="false"
-								widgetVar="myschedule" timeZone="GMT+2" locale="pl"
+								scrollTime="false" showWeekends="false"
+								widgetVar="myschedule" locale="pl"
 								aspectRatio="2.5" rightHeaderTemplate="agendaWeek">
 								<c:if test="#{securityService.hasRole('KLIENT')}">
 									<p:ajax update="reservationPanel" event="eventSelect"	listener="#{visitView.onEventSelect}" oncomplete="PF('reservationDialog').show();" />
